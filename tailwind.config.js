@@ -11,7 +11,7 @@ export default {
         './resources/views/**/*.blade.php',
         './app/Filament/**/*.php',
         './resources/views/filament/**/*.blade.php',
-        './vendor/filament/**/*.blade.php',
+        './vendor/filament/**/*.blade.php'
     ],
 
     theme: {
@@ -23,5 +23,5 @@ export default {
     },
 
     plugins: [forms, typography],
-    darkMode: 'media',
+    darkMode: 'class',
 };
