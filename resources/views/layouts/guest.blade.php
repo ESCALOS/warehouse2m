@@ -19,11 +19,10 @@
 
         @livewire('home.nav')
 
-        <div class="font-sans antialiased text-gray-900">
+        <div class="font-sans antialiased text-gray-900 dark:text-gray-100">
             {{ $slot }}
         </div>
 
         @include('layouts.partials.footer')
-
     </body>
 </html>

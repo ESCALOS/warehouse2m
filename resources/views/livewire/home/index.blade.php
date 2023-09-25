@@ -1,4 +1,4 @@
-<section class="bg-gray-700 bg-center bg-no-repeat bg-blend-multiply banner">
+<section class="bg-gray-700 bg-center bg-no-repeat bg-blend-multiply banner home-content">
     <div class="max-w-screen-xl px-6 py-24 mx-auto text-center lg:py-56">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl" style="line-height: 3.5rem">Agrícola 2m: Cultivando Sustentabilidad</h1>
         <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Comprometidos con la calidad, sostenibilidad y la satisfacción de nuestros clientes.</p>

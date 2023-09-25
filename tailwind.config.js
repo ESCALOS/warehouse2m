@@ -11,7 +11,7 @@ export default {
         './resources/views/**/*.blade.php',
         './app/Filament/**/*.php',
         './resources/views/filament/**/*.blade.php',
-        './vendor/filament/**/*.blade.php'
+        './vendor/filament/**/*.blade.php',
     ],
 
     theme: {
@@ -22,6 +22,6 @@ export default {
         },
     },
 
-    plugins: [forms, typography],
+    plugins: [forms, typography,require("tw-elements/dist/plugin.cjs")],
     darkMode: 'class',
 };
