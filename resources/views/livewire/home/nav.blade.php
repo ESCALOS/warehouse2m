@@ -1,4 +1,4 @@
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
+<nav class="bg-white border-gray-200 dark:bg-gray-900 home-nav">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto" x-data="{ isOpen: true }">
         <a href="{{ route('home.index') }}" class="flex items-center">
             <img src="https://i.ibb.co/yV51Drs/logo.png" class="h-8 mr-3" alt="Logo" />

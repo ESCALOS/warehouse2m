@@ -19,10 +19,9 @@
 }
 
 
-
-@media screen and (min-width: 768px) {
+@media only screen and (min-width: 992px) {
     .banner {
-        background-image: url('http://127.0.0.1:8000/storage/images/banner-desktop.png');
+        background-image: url('/public/storage/images/banner-desktop.png');
         background-size: cover;
         background-position: center center;
         height: 86vh;
@@ -32,14 +31,39 @@
     }
 }
 
-@media screen and (max-width:767px) {
+/* Small Devices*/
+@media only screen and (max-width: 767px) {
     .banner {
-        background-image: url('http://127.0.0.1:8000/storage/images/banner-mobile.png');
+        background-image: url('/public/storage/images/banner-mobile.png');
         background-size: cover;
         background-position: center center;
         height: 84vh;
     }
     footer {
         height: calc(16vh - 72px);
+    }
+}
+
+@media only screen and (min-width:768px) and (max-height: 393px) {
+    .banner {
+        background-image: url('/public/storage/images/banner-desktop.png');
+        background-size: cover;
+        background-position: center center;
+        height:100vh;
+    }
+    .banner > div > p {
+        display: none;
+    }
+}
+
+@media only screen and (min-width:768px) and (min-height: 394px) {
+    .banner {
+        background-image: url('/public/storage/images/banner-desktop.png');
+        background-size: cover;
+        background-position: center center;
+        height: 86vh;
+    }
+    footer {
+        height: calc(14vh - 64px);
     }
 }
