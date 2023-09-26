@@ -4,6 +4,7 @@ namespace App\Livewire\Home;
 
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Filament\Notifications\Notification;
 
 class Contact extends Component
 {
@@ -12,8 +13,13 @@ class Contact extends Component
     public $phoneNumber = '';
     public $message = '';
 
-    public function send() {
-        $this->name = $this->phoneNumber;
+    public function send(): void {
+        Notification::make()
+            ->title('Mensaje Enviado')
+            ->success()
+            ->color('danger')
+            ->iconColor('warning')
+            ->send();
     }
 
     #[Layout('layouts.guest')]

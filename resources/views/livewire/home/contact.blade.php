@@ -4,7 +4,7 @@
             <div class="grid items-center lg:grid-cols-2">
                 <div class="lg:mt-0 lg:mb-0 contact-container">
                     <div
-                    class="relative z-[1] block rounded-lg bg-[hsla(0,0%,100%,0.55)] px-6 py-8 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-gray-900 dark:shadow-black/20 md:px-12 lg:-mr-14">
+                    class="relative z-[1] block rounded-lg bg-white px-6 py-8 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-gray-900 dark:shadow-black/20 md:px-12 lg:-mr-14">
                     <h2 class="mb-6 text-3xl font-bold">Contáctenos</h2>
                     <form class="contact-form" wire:submit='send'>
                         <div>
@@ -12,14 +12,14 @@
                                 <div class="relative">
                                     <label
                                         for="name"
-                                        class="absolute block px-2 text-gray-100 transition-all duration-200 transform -translate-y-1/2 rounded-md"
-                                        :class="{ 'left-2 text-xs top-0 dark:bg-gray-900': isFocused || $wire.name !== '', 'left-3 top-1/2': !(isFocused || $wire.name !== '') }"
+                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
+                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.name !== '', 'left-3 top-1/2': !(isFocused || $wire.name !== '') }"
                                     >Nombre</label>
                                     <input
                                         type="text"
                                         x-on:focus="isFocused = true"
                                         x-on:blur="isFocused = false"
-                                        class="block w-full px-3 py-2 bg-transparent border border-white rounded peer focus:border-primary"
+                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
                                         id="name"
                                         autocomplete="name"
                                         wire:model='name'
@@ -30,14 +30,14 @@
                                 <div class="relative">
                                     <label
                                         for="email"
-                                        class="absolute block px-2 text-gray-100 transition-all duration-200 transform -translate-y-1/2 rounded-md"
-                                        :class="{ 'left-2 text-xs top-0 dark:bg-gray-900': isFocused || $wire.email !== '', 'left-3 top-1/2': !(isFocused || $wire.email !== '') }"
+                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
+                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.email !== '', 'left-3 top-1/2': !(isFocused || $wire.email !== '') }"
                                     >Correo Electrónico</label>
                                     <input
                                         type="text"
                                         x-on:focus="isFocused = true"
                                         x-on:blur="isFocused = false"
-                                        class="block w-full px-3 py-2 bg-transparent border border-white rounded peer focus:border-primary"
+                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
                                         id="email"
                                         autocomplete="email"
                                         wire:model='email'
@@ -48,8 +48,8 @@
                                 <div class="relative">
                                     <label
                                         for="phone"
-                                        class="absolute block px-2 text-gray-100 transition-all duration-200 transform -translate-y-1/2 rounded-md"
-                                        :class="{ 'left-2 text-xs top-0 dark:bg-gray-900': isFocused || $wire.phoneNumber !== '', 'left-3 top-1/2': !(isFocused || $wire.phoneNumber !== '') }"
+                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
+                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.phoneNumber !== '', 'left-3 top-1/2': !(isFocused || $wire.phoneNumber !== '') }"
                                     >Celular</label>
                                     <input
                                         type="text"
@@ -57,9 +57,9 @@
                                         x-on:blur="isFocused = false"
                                         x-on:input="$wire.phoneNumber = $wire.phoneNumber.replace(/\D/g, '').replace(/(\d{3})(?=\d)/g, '$1-');"
                                         maxlength="11"
-                                        class="block w-full px-3 py-2 bg-transparent border border-white rounded peer focus:border-primary"
+                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
                                         id="phone"
-                                        autocomplete="phoneNumber"
+                                        autocomplete="tel"
                                         wire:model='phoneNumber'
                                     />
                                 </div>
@@ -68,17 +68,16 @@
                                 <div class="relative">
                                     <label
                                         for="message"
-                                        class="absolute block px-2 text-gray-100 transition-all duration-200 transform -translate-y-1/2 rounded-md"
-                                        :class="{ 'left-2 text-xs top-0 dark:bg-gray-900': isFocused || $wire.message !== '', 'left-3 top-1/4': !(isFocused || $wire.message !== '') }"
+                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
+                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.message !== '', 'left-3 top-1/4': !(isFocused || $wire.message !== '') }"
                                     >Mensaje</label>
                                     <textarea
                                         rows="4"
                                         type="text"
                                         x-on:focus="isFocused = true"
                                         x-on:blur="isFocused = false"
-                                        class="block w-full px-3 py-2 bg-transparent border border-white rounded peer focus:border-primary"
+                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
                                         id="message"
-                                        autocomplete="off"
                                         wire:model='message'
                                     ></textarea>
                                 </div>
