@@ -1,6 +1,6 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 home-nav">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto" x-data="{ isOpen: true }">
-        <a href="{{ route('home.index') }}" class="flex items-center">
+        <a wire:navigate href="{{ route('home.index') }}" class="flex items-center">
             <img src="https://i.ibb.co/yV51Drs/logo.png" class="h-8 mr-3" alt="Logo" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Agrícola 2M</span>
         </a>
@@ -16,7 +16,7 @@
         <ul class="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
              @foreach ($routes as $route)
                 <li>
-                    <a wire:navigate href="{{ route($route['route']) }}" class="home-nav-link {{ request()->routeIs($route['route']) ? 'home-nav-link-active' : 'home-nav-link-inactive'}}" aria-current="page">{{ $route['name'] }}</a>
+                    <a wire:navigate.hover href="{{ route($route['route']) }}" class="home-nav-link {{ request()->routeIs($route['route']) ? 'home-nav-link-active' : 'home-nav-link-inactive'}}" aria-current="page">{{ $route['name'] }}</a>
                 </li>
              @endforeach
         </ul>

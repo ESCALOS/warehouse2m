@@ -22,6 +22,6 @@ export default {
         },
     },
 
-    plugins: [forms, typography,require("tw-elements/dist/plugin.cjs")],
+    plugins: [forms, typography],
     darkMode: 'class',
 };
