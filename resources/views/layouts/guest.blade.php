@@ -23,9 +23,9 @@
 
         <div class="font-sans antialiased text-gray-900 dark:text-gray-100">
             {{ $slot }}
-            @livewire('notifications')
         </div>
 
+        @livewire('notifications')
         @include('layouts.partials.footer')
 
         @filamentScripts

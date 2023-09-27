@@ -5,16 +5,16 @@
                 <div class="lg:mt-0 lg:mb-0 contact-container">
                     <div
                     class="relative z-[1] block rounded-lg bg-white px-6 py-8 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-gray-900 dark:shadow-black/20 md:px-12 lg:-mr-14">
-                    <h2 class="mb-6 text-3xl font-bold">Contáctenos</h2>
-                    <form class="contact-form" wire:submit='send'>
-                        <div>
-                            <x-input-contact model="name" label="Nombres y Apellidos" />
-                            <x-input-contact model="email" label="Correo Electrónico" />
-                            <x-input-contact model="phoneNumber" label="Celular" autocomplete="tel" />
-                            <x-textarea-contact model="content" label="Mensaje" />
-                        </div>
-                        <x-custom-button class="bg-gray-900 dark:bg-blue-700" label="Enviar" action="send" />
-                    </form>
+                        <h2 class="mb-6 text-3xl font-bold">Contáctenos</h2>
+                        <form class="contact-form" wire:submit='send'>
+                            <div>
+                                <x-input-contact model="name" label="Nombres y Apellidos" />
+                                <x-input-contact model="email" label="Correo Electrónico" />
+                                <x-input-contact model="phoneNumber" label="Celular" autocomplete="tel" />
+                                <x-textarea-contact model="content" label="Mensaje" />
+                            </div>
+                            <x-custom-button class="bg-gray-900 dark:bg-blue-700" label="Enviar" action="send" />
+                        </form>
                     </div>
                 </div>
                 <!--Mapa de google maps-->

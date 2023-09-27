@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Forms;
 
+use App\Mail\ContactMailable;
 use Livewire\Attributes\Rule;
 use Livewire\Form;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class ContactForm extends Form
 {
@@ -21,6 +23,7 @@ class ContactForm extends Form
 
     public function send(): void {
         $this->validate();
+        Mail::to('stornblood6969@gmail.com')->send(new ContactMailable);
         Notification::make()
             ->title('Mensaje enviado')
             ->success()
