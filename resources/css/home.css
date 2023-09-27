@@ -1,7 +1,6 @@
 .home-nav-link {
     @apply block py-2 pl-3 pr-4
 }
-
 .home-nav-link-active {
     @apply text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500
 }
@@ -15,7 +14,6 @@
 .contact-form > div > div:not(:last-child) {
     @apply mb-4
 }
-
 /* Dispositivos pequeños*/
 @media only screen and (max-width: 739px) {
     .banner {
@@ -61,7 +59,13 @@
         padding-bottom: 1.25rem;
     }
     .contact-content > div {
-        padding-top: 1rem;
+        padding-top: .75rem;
+    }
+    .contact-form > div {
+        @apply mb-4
+    }
+    .contact-form > div > div:not(:last-child) {
+        @apply mb-2
     }
 }
 

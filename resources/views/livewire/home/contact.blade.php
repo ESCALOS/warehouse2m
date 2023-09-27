@@ -8,92 +8,16 @@
                     <h2 class="mb-6 text-3xl font-bold">Contáctenos</h2>
                     <form class="contact-form" wire:submit='send'>
                         <div>
-                            <div x-data="{ isFocused: false }">
-                                <div class="relative">
-                                    <label
-                                        for="name"
-                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
-                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.name !== '', 'left-3 top-1/2': !(isFocused || $wire.name !== '') }"
-                                    >Nombre</label>
-                                    <input
-                                        type="text"
-                                        x-on:focus="isFocused = true"
-                                        x-on:blur="isFocused = false"
-                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
-                                        id="name"
-                                        autocomplete="name"
-                                        wire:model='name'
-                                    />
-                                </div>
-                            </div>
-                            <div x-data="{ isFocused: false }">
-                                <div class="relative">
-                                    <label
-                                        for="email"
-                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
-                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.email !== '', 'left-3 top-1/2': !(isFocused || $wire.email !== '') }"
-                                    >Correo Electrónico</label>
-                                    <input
-                                        type="text"
-                                        x-on:focus="isFocused = true"
-                                        x-on:blur="isFocused = false"
-                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
-                                        id="email"
-                                        autocomplete="email"
-                                        wire:model='email'
-                                    />
-                                </div>
-                            </div>
-                            <div x-data="{ isFocused: false }">
-                                <div class="relative">
-                                    <label
-                                        for="phone"
-                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
-                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.phoneNumber !== '', 'left-3 top-1/2': !(isFocused || $wire.phoneNumber !== '') }"
-                                    >Celular</label>
-                                    <input
-                                        type="text"
-                                        x-on:focus="isFocused = true"
-                                        x-on:blur="isFocused = false"
-                                        x-on:input="$wire.phoneNumber = $wire.phoneNumber.replace(/\D/g, '').replace(/(\d{3})(?=\d)/g, '$1-');"
-                                        maxlength="11"
-                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
-                                        id="phone"
-                                        autocomplete="tel"
-                                        wire:model='phoneNumber'
-                                    />
-                                </div>
-                            </div>
-                            <div x-data="{ isFocused: false }">
-                                <div class="relative">
-                                    <label
-                                        for="message"
-                                        class="absolute block px-2 text-gray-900 transition-all duration-200 transform -translate-y-1/2 rounded-md dark:text-gray-100"
-                                        :class="{ 'left-2 text-xs top-0 bg-white dark:bg-gray-900': isFocused || $wire.message !== '', 'left-3 top-1/4': !(isFocused || $wire.message !== '') }"
-                                    >Mensaje</label>
-                                    <textarea
-                                        rows="4"
-                                        type="text"
-                                        x-on:focus="isFocused = true"
-                                        x-on:blur="isFocused = false"
-                                        class="block w-full px-3 py-2 bg-transparent border border-gray-900 rounded dark:border-white peer focus:border-primary"
-                                        id="message"
-                                        wire:model='message'
-                                    ></textarea>
-                                </div>
-                            </div>
+                            <x-input-contact model="name" label="Nombres y Apellidos" />
+                            <x-input-contact model="email" label="Correo Electrónico" />
+                            <x-input-contact model="phoneNumber" label="Celular" autocomplete="tel" />
+                            <x-textarea-contact model="content" label="Mensaje" />
                         </div>
-                        <button wire:loading.attr='disabled' wire:loading.class='cursor-not-allowed' class="inline-flex items-center px-4 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out bg-green-500 rounded-md shadow hover:bg-green-400">
-                            <svg wire:loading class="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span wire:loading>Enviando...</span>
-                            <span wire:loading.remove>Enviar</span>
-                          </button>
+                        <x-custom-button class="bg-gray-900 dark:bg-blue-700" label="Enviar" action="send" />
                     </form>
                     </div>
                 </div>
+                <!--Mapa de google maps-->
                 <div class="md:mb-12 lg:mb-0 contact-map">
                     <div
                     class="relative h-[700px] rounded-lg shadow-lg dark:shadow-black/20">

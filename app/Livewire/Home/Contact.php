@@ -2,24 +2,16 @@
 
 namespace App\Livewire\Home;
 
+use App\Livewire\Forms\ContactForm;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Filament\Notifications\Notification;
 
 class Contact extends Component
 {
-    public $name = '';
-    public $email = '';
-    public $phoneNumber = '';
-    public $message = '';
+    public ContactForm $form;
 
-    public function send(): void {
-        Notification::make()
-            ->title('Mensaje Enviado')
-            ->success()
-            ->color('danger')
-            ->iconColor('warning')
-            ->send();
+    public function send() {
+        $this->form->send();
     }
 
     #[Layout('layouts.guest')]
