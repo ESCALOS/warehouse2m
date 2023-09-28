@@ -1,12 +1,9 @@
 <x-mail::message>
-# Nuevo Mensaje de Contacto
+# Contacto: {{ $form['name'] }}
+# Correo Electónico: {{ $form['email'] }}
+# Celular: {{ $form['phoneNumber'] }}
 
-## **Mensaje:**
+{{ $form['content'] }}
 
-<x-mail::button :url="env('APP_URL')" color="success">
-View Order
-</x-mail::button>
-
-Mensaje enviado desde el formulario de contacto,<br>
-{{ config('app.name') }}
+***Mensaje enviado desde el formulario de contacto***
 </x-mail::message>

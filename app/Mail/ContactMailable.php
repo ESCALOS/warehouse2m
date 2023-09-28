@@ -9,16 +9,15 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMailable extends Mailable
+class ContactMailable extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
+    public $form;
+
+    public function __construct($form)
     {
-        //
+        $this->form = $form;
     }
 
     /**
@@ -27,7 +26,7 @@ class ContactMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contact Mailable',
+            subject: 'Nuevo Mensaje',
         );
     }
 
@@ -38,6 +37,9 @@ class ContactMailable extends Mailable
     {
         return new Content(
             markdown: 'emails.contact',
+            with: [
+                'form' => $this->form
+            ]
         );
     }
 
