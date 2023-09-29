@@ -1,8 +1,8 @@
-<section class="text-center bg-gray-100 home-content dark:bg-gray-800 contact-content">
+<section class="text-center bg-gray-100 height-content dark:bg-gray-800">
     <div class="px-4 py-12 md:px-12">
         <div class="container mx-auto xl:px-32">
             <div class="grid items-center lg:grid-cols-2">
-                <div class="lg:mt-0 lg:mb-0 contact-container">
+                <div class="lg:mt-0 lg:mb-0 md:mt-12">
                     <div
                     class="relative z-[1] block rounded-lg bg-white px-6 py-8 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-gray-900 dark:shadow-black/20 md:px-12 lg:-mr-14">
                         <h2 class="mb-6 text-3xl font-bold">Contáctenos</h2>
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <!--Mapa de google maps-->
-                <div class="md:mb-12 lg:mb-0 contact-map">
+                <div class="hidden md:mb-12 lg:mb-0 md:block">
                     <div
                     class="relative h-[700px] rounded-lg shadow-lg dark:shadow-black/20">
                     <iframe

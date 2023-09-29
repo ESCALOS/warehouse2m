@@ -16,7 +16,7 @@ class Nav extends Component
             'route' => 'home.about'
         ],
         [
-            'name' => 'Servicios',
+            'name' => 'Productos',
             'route' => 'home.services'
         ],
         [

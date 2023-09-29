@@ -1,7 +1,7 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 home-nav">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto" x-data="{ isOpen: true }">
         <a wire:navigate href="{{ route('home.index') }}" class="flex items-center">
-            <img src="https://i.ibb.co/yV51Drs/logo.png" class="h-8 mr-3" alt="Logo" />
+            <img src="{{ env('LOGO_URL','https://i.ibb.co/yV51Drs/logo.png') }}" class="h-8 mr-3" alt="Logo" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Agrícola 2M</span>
         </a>
         <div class="flex items-center md:order-2">

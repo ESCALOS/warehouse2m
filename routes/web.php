@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home.index');
 Route::get('/nosotros', About::class)->name('home.about');
-Route::get('/servicios', Services::class)->name('home.services');
+Route::get('/productos', Services::class)->name('home.services');
 Route::get('/contactenos', Contact::class)->name('home.contact');
 
 Route::middleware([
