@@ -1,3 +1,3 @@
-<div>
-    {{-- Care about people's approval and you will be their prisoner. --}}
-</div>
+<section class="relative flex items-center justify-center bg-gray-100 height-content dark:bg-gray-800">
+
+</section>
