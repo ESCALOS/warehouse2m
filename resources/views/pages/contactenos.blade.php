@@ -1,3 +1,25 @@
+<?php
+use App\Mail\ContactMailable;
+use App\Livewire\Forms\ContactForm;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
+use function Livewire\Volt\{form};
+use function Laravel\Folio\name;
+
+name('home.contact');
+form(ContactForm::class);
+
+$send = function() {
+    $this->form->validate();
+    Mail::to('stornblood6969@gmail.com')->send(new ContactMailable($this->form->all()));
+    Notification::make()
+        ->title('Mensaje enviado')
+        ->success()
+        ->send();
+    $this->form->reset();
+}
+?>
+<x-guest-layout title="Contáctenos">
 <section class="text-center bg-gray-100 height-content dark:bg-gray-800">
     <div class="px-4 py-12 md:px-12">
         <div class="container mx-auto xl:px-32">
@@ -6,6 +28,7 @@
                     <div
                     class="relative z-[1] block rounded-lg bg-white px-6 py-8 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-[30px] dark:bg-gray-900 dark:shadow-black/20 md:px-12 lg:-mr-14">
                         <h2 class="mb-6 text-3xl font-bold">Contáctenos</h2>
+                        @volt('contact-form')
                         <form class="contact-form" wire:submit='send'>
                             <div>
                                 <x-input-contact model="name" label="Nombres y Apellidos" />
@@ -15,6 +38,7 @@
                             </div>
                             <x-custom-button class="bg-gray-900 dark:bg-blue-700" label="Enviar" action="send" />
                         </form>
+                        @endvolt
                     </div>
                 </div>
                 <!--Mapa de google maps-->
@@ -32,3 +56,4 @@
         </div>
     </div>
 </section>
+</x-guest-layout>

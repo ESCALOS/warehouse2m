@@ -1,3 +1,24 @@
+<?php
+    $routes = [
+        [
+            'name' => 'Inicio',
+            'route' => 'home.index'
+        ],
+        [
+            'name' => 'Nosotros',
+            'route' => 'home.about'
+        ],
+        [
+            'name' => 'Productos',
+            'route' => 'home.products'
+        ],
+        [
+            'name' => 'Contactos',
+            'route' => 'home.contact'
+        ]
+    ];
+?>
+
 <nav class="bg-white border-gray-200 dark:bg-gray-900 home-nav">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto" x-data="{ isOpen: true }">
         <a wire:navigate href="{{ route('home.index') }}" class="flex items-center">
