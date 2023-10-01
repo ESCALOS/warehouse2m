@@ -42,7 +42,7 @@ $send = function() {
                     </div>
                 </div>
                 <!--Mapa de google maps-->
-                <div class="hidden md:mb-12 lg:mb-0 md:block">
+                <div class="hidden md:mb-12 lg:mb-0 lg:block">
                     <div
                     class="relative h-[700px] rounded-lg shadow-lg dark:shadow-black/20">
                     <iframe
