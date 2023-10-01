@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Subcategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,5 +26,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('123456')
 
         ]);
+
+        \App\Models\Category::factory(5)->has(Subcategory::factory(4))->create();
     }
 }

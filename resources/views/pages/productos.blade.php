@@ -20,8 +20,8 @@ state([
             Cosechamos más que frutas; cultivamos experiencias. En 2M Agrícola, cada uva y palta es un testimonio de nuestra dedicación a la excelencia agrícola. Bienvenido a un mundo de sabores auténticos y naturaleza viva.
         </p>
         <div class="flex flex-wrap justify-center gap-6 flex-items-center">
-            <x-image-product  name="UVA" image="1kqefvi_ZvkI6mGMfQJ-_JlcL05DNiv70"/>
-            <x-image-product  name="PALTA" image="1hiu7YIJbjCNOJMAFHc823LMZ4RDBNn-K"/>
+            <x-image-product name="UVA" image="1kqefvi_ZvkI6mGMfQJ-_JlcL05DNiv70"/>
+            <x-image-product name="PALTA" image="1hiu7YIJbjCNOJMAFHc823LMZ4RDBNn-K"/>
         </div>
     </div>
 </section>
