@@ -32,7 +32,7 @@
 /* Dispositivos pequeños*/
 @media only screen and (max-width: 767px) {
     .bg-image-home {
-        background-image: url('https://drive.google.com/uc?id=1sP8xX0xy_gvFu1-dP9OSk-NEbyYLrmNJ');
+        background-image: url('https://drive.google.com/uc?id=1AG2DG6ANylAUxMmlXxYVIalpJAAV-pqT');
     }
     .height-content{
        min-height: 84vh;
@@ -45,7 +45,7 @@
 /* Dispositivos grandes*/
 @media only screen and (min-width:768px) {
     .bg-image-home {
-        background-image: url('https://drive.google.com/uc?id=1vu3H4dimX18hjUSG1n9-7fPOhTxLPwOE');
+        background-image: url('https://drive.google.com/uc?id=1rm6kDpwpcPvTm1e1CMiIT5V8jz3dRGLF');
     }
     .height-content {
         min-height: 86vh;
