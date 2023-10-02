@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('tax_number');
+            $table->string('tax_number')->unique();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();

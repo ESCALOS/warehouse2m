@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Supplier>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Area>
  */
-class SupplierFactory extends Factory
+class AreaFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class SupplierFactory extends Factory
     public function definition(): array
     {
         return [
-            'tax_number' => $this->faker->unique()->numerify(str_repeat('#',11)),
-            'name' => $this->faker->unique()->word()
+            'description' => $this->faker->unique()->word()
         ];
     }
 }

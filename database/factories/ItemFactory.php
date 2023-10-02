@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\MeasurementUnit;
+use App\Models\Subcategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class ItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'description' => $this->faker->unique()->word(),
+            'subcategory_id' => Subcategory::all()->random(),
+            'measurement_unit_id' => MeasurementUnit::all()->random()
         ];
     }
 }

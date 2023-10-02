@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('measurement_units', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->string('description')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

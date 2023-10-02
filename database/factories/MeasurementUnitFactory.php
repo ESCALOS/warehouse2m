@@ -17,7 +17,7 @@ class MeasurementUnitFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'description' => $this->faker->unique()->word()
         ];
     }
 }

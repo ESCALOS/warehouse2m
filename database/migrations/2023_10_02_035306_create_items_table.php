@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->string('description')->unique();
             $table->foreignIdFor(Subcategory::class);
             $table->foreignIdFor(MeasurementUnit::class);
             $table->timestamps();

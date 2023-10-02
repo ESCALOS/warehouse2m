@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Area;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,9 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('description')->unique();
+            $table->string('name');
+            $table->enum('document_type', ['DNI','CE']);
+            $table->string('document_number',12)->unique();
+            $table->foreignIdFor(Area::class);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('employees');
     }
 };
