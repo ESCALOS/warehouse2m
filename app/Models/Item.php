@@ -14,7 +14,7 @@ class Item extends Model
         return $this->belongsTo(Subcategory::class);
     }
 
-    public function measurementunit() {
+    public function measurementUnit() {
         return $this->belongsTo(MeasurementUnit::class);
     }
 

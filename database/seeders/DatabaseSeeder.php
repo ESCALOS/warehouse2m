@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Category;
+use App\Models\CostCenter;
+use App\Models\CostCenterIncome;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +23,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::factory(5)->hasSubcategories(4)->create();
+
+
+        CostCenter::factory(3)->state([
+            'amount' => 0
+        ])->hasCostCenterIncomes(4)->create();
     }
 }
