@@ -10,6 +10,7 @@ use App\Models\Item;
 use App\Models\MeasurementUnit;
 use App\Models\User;
 use App\Models\Warehouse;
+use App\Models\WarehouseType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,13 +29,14 @@ class DatabaseSeeder extends Seeder
         CostCenter::factory(3)->state([
             'amount' => 0
         ])->hasCostCenterIncomes(4)->create();
-        $items = Item::factory()->create(100);
+        WarehouseType::factory(5)->create();
+        $items = Item::factory(100)->create();
         $warehouses = Warehouse::factory(4)->create();
 
         foreach($items as $item) {
             $item->warehouses()->attach($warehouses->random(),[
                 'quantity' => rand(1,100),
-                'total_cost' => rand(1,10) * 100
+                'total_cost' => rand(1, 100) * 50
             ]);
         }
     }
