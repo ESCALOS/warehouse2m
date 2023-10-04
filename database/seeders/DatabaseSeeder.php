@@ -6,8 +6,10 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\CostCenter;
-use App\Models\CostCenterIncome;
+use App\Models\Item;
+use App\Models\MeasurementUnit;
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,12 +23,19 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'stornblood6969@gmail.com',
         ]);
-
         Category::factory(5)->hasSubcategories(4)->create();
-
-
+        MeasurementUnit::factory(10)->create();
         CostCenter::factory(3)->state([
             'amount' => 0
         ])->hasCostCenterIncomes(4)->create();
+        $items = Item::factory()->create(100);
+        $warehouses = Warehouse::factory(4)->create();
+
+        foreach($items as $item) {
+            $item->warehouses()->attach($warehouses->random(),[
+                'quantity' => rand(1,100),
+                'total_cost' => rand(1,10) * 100
+            ]);
+        }
     }
 }

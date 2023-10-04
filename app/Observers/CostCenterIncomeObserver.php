@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\CostCenter;
 use App\Models\CostCenterIncome;
 
 class CostCenterIncomeObserver
