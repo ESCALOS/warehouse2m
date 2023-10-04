@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ItemWarehouse;
+use App\Models\Movement;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,10 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movement_reasons', function (Blueprint $table) {
+        Schema::create('movement_details', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->enum('type',['INGRESO','SALIDA']);
+            $table->foreignIdFor(Movement::class);
+            $table->foreignIdFor(ItemWarehouse::class);
+            $table->integer('quantity');
+            $table->decimal('cost',10,2);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movement_reasons');
+        Schema::dropIfExists('movement_details');
     }
 };

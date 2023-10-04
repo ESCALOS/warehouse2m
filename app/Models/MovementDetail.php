@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class StockMovement extends Model
+class MovementDetail extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function stock(): BelongsTo {
-        return $this->belongsTo(ItemWarehouse::class);
+    public function movement(): BelongsTo {
+        return $this->belongsTo(Movement::class);
     }
 
-    public function movementReason(): BelongsTo {
-        return $this->belongsTo(MovementReason::class);
+    public function batch(): hasMany {
+        return $this->hasMany(Batch::class);
     }
 }

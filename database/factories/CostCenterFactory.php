@@ -18,7 +18,7 @@ class CostCenterFactory extends Factory
     {
         return [
             'description' => $this->faker->unique()->word(),
-            'amount' => $this->faker->randomDigitNotZero()*10000,
+            'amount' => $this->faker->numberBetween(1,10) * 10000,
         ];
     }
 }

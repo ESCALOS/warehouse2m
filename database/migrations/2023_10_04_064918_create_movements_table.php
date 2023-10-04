@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\ItemWarehouse;
 use App\Models\MovementReason;
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,14 +14,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_movements', function (Blueprint $table) {
+        Schema::create('movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ItemWarehouse::class);
-            $table->foreignIdFor(MovementReason::class);
             $table->foreignIdFor(User::class);
-            $table->enum('type', ['INGRESO','SALIDA']);
+            $table->foreignIdFor(Warehouse::class);
+            $table->foreignIdFor(MovementReason::class);
+            $table->enum('type',['INGRESO','SALIDA']);
+            $table->decimal('total_cost',10,2)->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_movements');
+        Schema::dropIfExists('movements');
     }
 };

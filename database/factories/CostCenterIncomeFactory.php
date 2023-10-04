@@ -21,7 +21,7 @@ class CostCenterIncomeFactory extends Factory
         return [
             'cost_center_id' => CostCenter::all()->random(),
             'user_id' => User::all()->random(),
-            'amount' => $this->faker->randomDigitNotZero()*1000
+            'amount' => $this->faker->numberBetween(1,10) * 1000
         ];
     }
 }

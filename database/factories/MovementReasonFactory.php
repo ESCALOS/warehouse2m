@@ -17,7 +17,8 @@ class MovementReasonFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'description' => $this->faker->word(),
+            'type' => $this->faker->randomElement(['INGRESO','SALIDA'])
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MovementDetail;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movement_reasons', function (Blueprint $table) {
+        Schema::create('batches', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->enum('type',['INGRESO','SALIDA']);
+            $table->foreignIdFor(MovementDetail::class);
+            $table->integer('quantity');
+            $table->date('expiry_date');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movement_reasons');
+        Schema::dropIfExists('batches');
     }
 };
