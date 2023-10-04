@@ -14,4 +14,8 @@ class CostCenter extends Model
     public function costCenterIncomes(): HasMany {
         return $this->hasMany(CostCenterIncome::class);
     }
+
+    public function movements(): HasMany {
+        return $this->hasMany(EmployeeMovement::class);
+    }
 }

@@ -10,7 +10,7 @@ class ContactForm extends Form
     #[Rule('required', message: 'Ingrese su nombre')]
     public $name = '';
     #[Rule('required', message: 'Ingrese su correo')]
-    #[Rule('email:filter', message: 'Correo Inválido')]
+    #[Rule('email:rfc,dns', message: 'Correo Inválido')]
     public $email = '';
     #[Rule('required', message: 'Falta su celular')]
     #[Rule('regex:/^\d{3}-\d{3}-\d{3}$/', message: 'Celular inválido')]
