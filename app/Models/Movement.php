@@ -28,4 +28,8 @@ class Movement extends Model
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
+
+    public function transfer(): BelongsTo {
+        return $this->belongsTo(Transfer::class);
+    }
 }

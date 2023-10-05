@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\MovementReason;
-use App\Models\Transfer;
-use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,14 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movements', function (Blueprint $table) {
+        Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
             $table->foreignIdFor(Warehouse::class);
-            $table->foreignIdFor(MovementReason::class);
-            $table->enum('type',['INGRESO','SALIDA']);
-            $table->foreignIdFor(Transfer::class)->nullable();
-            $table->decimal('total_cost',10,2)->default(0);
+            $table->unsignedBigInteger('movement_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movements');
+        Schema::dropIfExists('transfers');
     }
 };
