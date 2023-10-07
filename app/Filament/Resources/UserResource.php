@@ -38,6 +38,9 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->hiddenOn('edit'),
+                Forms\Components\Select::make('roles')
+                    ->label('Rol')
+                    ->relationship('roles','name'),
             ]);
     }
 
@@ -50,12 +53,17 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Correo Electrónico')
+                    ->copyable()
+                    ->copyMessage('Correo Electrónico copiado')
+                    ->copyMessageDuration(1500)
                     ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Rol')
+                    ->default('Sin rol'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creación')
-                    ->dateTime()
+                    ->label('Creado')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since()
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
