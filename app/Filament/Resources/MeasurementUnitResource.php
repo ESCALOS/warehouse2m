@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Filament\Resources\CategoryResource\RelationManagers\SubcategoriesRelationManager;
-use App\Models\Category;
+use App\Filament\Resources\MeasurementUnitResource\Pages;
+use App\Filament\Resources\MeasurementUnitResource\RelationManagers;
+use App\Models\MeasurementUnit;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,13 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class MeasurementUnitResource extends Resource
 {
-    protected static ?string $model = Category::class;
-
+    protected static ?string $model = MeasurementUnit::class;
     protected static ?string $navigationGroup = 'Artículos';
-    protected static ?string $navigationIcon = 'heroicon-o-folder';
-    protected static ?string $modelLabel = 'categoría';
+    protected static ?string $modelLabel = 'unidad de Medida';
+    protected static ?string $pruralModelLabel = 'unidades de medida';
+    protected static ?string $navigationIcon = 'heroicon-o-scale';
 
     public static function form(Form $form): Form
     {
@@ -28,7 +27,6 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('description')
                     ->label('Descripción')
-                    ->unique()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -40,17 +38,7 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('description')
                     ->label('Descripción')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Actualizado')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable()
             ])
             ->filters([
                 //
@@ -68,16 +56,16 @@ class CategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            SubcategoriesRelationManager::class
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListMeasurementUnits::route('/'),
+            'create' => Pages\CreateMeasurementUnit::route('/create'),
+            'edit' => Pages\EditMeasurementUnit::route('/{record}/edit'),
         ];
     }
 }
