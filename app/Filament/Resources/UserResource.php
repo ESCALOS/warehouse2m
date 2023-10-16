@@ -16,17 +16,20 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Configuración';
+    protected static ?string $modelLabel = 'usuario';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('Correo Electrónico')
                     ->email()
                     ->required()
                     ->maxLength(255),
@@ -35,8 +38,9 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->hiddenOn('edit'),
-                Forms\Components\Toggle::make('is_active')
-                    ->hiddenOn('create'),
+                Forms\Components\Select::make('roles')
+                    ->label('Rol')
+                    ->relationship('roles','name'),
             ]);
     }
 
@@ -45,22 +49,30 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Correo Electrónico')
+                    ->copyable()
+                    ->copyMessage('Correo Electrónico copiado')
+                    ->copyMessageDuration(1500)
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Rol')
+                    ->default('Sin rol'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Creado')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since()
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

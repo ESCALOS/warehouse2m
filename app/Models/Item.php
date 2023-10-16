@@ -12,6 +12,8 @@ class Item extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected  $fillable = ['description'];
+
     public function subcategory(): BelongsTo {
         return $this->belongsTo(Subcategory::class);
     }
