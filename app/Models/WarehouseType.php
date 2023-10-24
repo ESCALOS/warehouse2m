@@ -11,6 +11,8 @@ class WarehouseType extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['description'];
+
     public function warehouses(): HasMany {
         return $this->hasMany(Warehouse::class);
     }

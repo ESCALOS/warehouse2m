@@ -13,11 +13,13 @@ class Warehouse extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['description', 'warehouse_type_id'];
+
     public function warehouseType(): BelongsTo {
         return $this->belongsTo(WarehouseType::class);
     }
 
-    public function users(): BelongsToMany {
+    public function responsables(): BelongsToMany {
         return $this->belongsToMany(User::class);
     }
 

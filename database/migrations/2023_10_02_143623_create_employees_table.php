@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('document_type', ['DNI','CE']);
+            $table->string('document_type',3);
             $table->string('document_number',12)->unique();
             $table->foreignIdFor(Area::class);
             $table->timestamps();

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\WarehouseResource\Pages;
-use App\Filament\Resources\WarehouseResource\RelationManagers;
-use App\Filament\Resources\WarehouseResource\RelationManagers\ResponsablesRelationManager;
-use App\Models\Warehouse;
+use App\Filament\Resources\AreaResource\Pages;
+use App\Filament\Resources\AreaResource\RelationManagers;
+use App\Filament\Resources\AreaResource\RelationManagers\EmployeesRelationManager;
+use App\Models\Area;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,13 +14,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class WarehouseResource extends Resource
+class AreaResource extends Resource
 {
-    protected static ?string $model = Warehouse::class;
+    protected static ?string $model = Area::class;
     protected static ?string $navigationGroup = 'Configuración';
-    protected static ?string $modelLabel = 'almacén';
-    protected static ?string $pluralModelLabel = 'almacenes';
-    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
@@ -30,10 +28,6 @@ class WarehouseResource extends Resource
                     ->label('Descripción')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('warehouse_type_id')
-                    ->label('Tipo')
-                    ->relationship('warehouseType', 'description')
-                    ->required(),
             ]);
     }
 
@@ -43,10 +37,7 @@ class WarehouseResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('description')
                     ->label('Descripción')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('warehouseType.description')
-                    ->label('Tipo')
-                    ->sortable()
+                    ->searchable()
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -55,7 +46,7 @@ class WarehouseResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\RestoreAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -67,16 +58,16 @@ class WarehouseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ResponsablesRelationManager::class,
+            EmployeesRelationManager::class
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListWarehouses::route('/'),
-            'create' => Pages\CreateWarehouse::route('/create'),
-            'edit' => Pages\EditWarehouse::route('/{record}/edit'),
+            'index' => Pages\ListAreas::route('/'),
+            'create' => Pages\CreateArea::route('/create'),
+            'edit' => Pages\EditArea::route('/{record}/edit'),
         ];
     }
 }

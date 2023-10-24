@@ -18,8 +18,8 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $documentType = $this->faker->randomElement(['DNI','DNI','DNI', 'DNI','CE']); // El DNI sale 4 veces más que el CE
-        $digits = $documentType == 'DNI' ? 8 : 12;
+        $documentType = $this->faker->randomElement([DocumentType::DNI,DocumentType::CarnetDeExtranjeria]);
+        $digits = $documentType === DocumentType::DNI ? 8 : 12;
         $documentNumber = $this->faker->unique()->numerify(str_repeat('#',$digits));
         return [
             'name' => $this->faker->unique->name(),

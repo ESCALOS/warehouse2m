@@ -11,7 +11,9 @@ class Area extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function employees(): HasMany {
+    protected $fillable = ['description'];
+
+    public function empleados(): HasMany {
         return $this->hasMany(Employee::class);
     }
 }
