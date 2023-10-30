@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -80,6 +81,11 @@ class ItemResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('category')
+                    ->label('Categoría')
+                    ->relationship('subcategory.category', 'description')
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

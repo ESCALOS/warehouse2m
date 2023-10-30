@@ -68,7 +68,8 @@ class UserResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 Filter::make('is_admin')
-                    ->toggle()
+                    ->label('Administradores')
+                    ->query(fn (Builder $query): Builder => $query->where('is_admin', true))
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
