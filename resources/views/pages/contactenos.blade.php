@@ -36,7 +36,7 @@ $send = function() {
                                 <x-input-contact model="phoneNumber" label="Celular" autocomplete="tel" />
                                 <x-textarea-contact model="content" label="Mensaje" />
                             </div>
-                            <x-custom-button class="bg-gray-900 dark:bg-blue-700" label="Enviar" action="send" />
+                            <x-custom-button class="bg-gray-900 dark:bg-blue-700" label="Enviar" />
                         </form>
                         @endvolt
                     </div>

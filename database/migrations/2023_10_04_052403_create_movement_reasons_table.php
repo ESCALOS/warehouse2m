@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\MovementType;
+use App\Enums\MovementTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('movement_reasons', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->enum('movement_type', [MovementType::getValues()]);
+            $table->enum('movement_type', MovementTypeEnum::getLabels());
             $table->timestamps();
             $table->softDeletes();
         });

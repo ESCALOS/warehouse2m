@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\MovementType;
+use App\Enums\MovementTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class MovementReasonFactory extends Factory
     {
         return [
             'description' => $this->faker->word(),
-            'type' => $this->faker->randomElement(MovementType::getValues())
+            'type' => $this->faker->randomElement(MovementTypeEnum::getLabels())
         ];
     }
 }

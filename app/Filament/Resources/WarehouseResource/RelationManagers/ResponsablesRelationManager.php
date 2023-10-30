@@ -14,6 +14,8 @@ class ResponsablesRelationManager extends RelationManager
 {
     protected static string $relationship = 'responsables';
 
+    protected static ?string $modelLabel = 'responsable';
+
     public function form(Form $form): Form
     {
         return $form

@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\MovementType;
+use App\Enums\MovementTypeEnum;
 use App\Models\MovementReason;
 use App\Models\Transfer;
 use App\Models\User;
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Warehouse::class);
             $table->foreignIdFor(MovementReason::class);
-            $table->enum('type',MovementType::getValues());
             $table->foreignIdFor(Transfer::class)->nullable();
             $table->decimal('total_cost',10,2)->default(0);
             $table->timestamps();

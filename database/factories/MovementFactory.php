@@ -2,8 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\DocumentType;
-use App\Enums\MovementType;
+use App\Enums\MovementTypeEnum;
 use App\Models\MovementReason;
 use App\Models\User;
 use App\Models\Warehouse;
@@ -25,7 +24,7 @@ class MovementFactory extends Factory
             'user_id' => User::all()->random(),
             'warehouse_id' => Warehouse::all()->random(),
             'movement_reason_id' => MovementReason::all()->random(),
-            'type' => $this->faker->randomElement(MovementType::getValues())
+            'type' => $this->faker->randomElement(MovementTypeEnum::getLabels())
         ];
     }
 }

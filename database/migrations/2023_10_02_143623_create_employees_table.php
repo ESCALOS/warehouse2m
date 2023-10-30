@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\DocumentTypeEnum;
 use App\Models\Area;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('document_type',3);
+            $table->enum('document_type',DocumentTypeEnum::getLabels());
             $table->string('document_number',12)->unique();
             $table->foreignIdFor(Area::class)->restrictOnDelete();
             $table->timestamps();

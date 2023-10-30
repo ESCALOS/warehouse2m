@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\DocumentType;
+use App\Enums\DocumentTypeEnum;
 use App\Models\Area;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +18,8 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $documentType = $this->faker->randomElement([DocumentType::DNI,DocumentType::CARNET_DE_EXTRANJERIA]);
-        $digits = $documentType === DocumentType::DNI ? 8 : 12;
+        $documentType = $this->faker->randomElement(DocumentTypeEnum::getLabels());
+        $digits = DocumentTypeEnum::isId($documentType) ? 8 : 12;
         $documentNumber = $this->faker->unique()->numerify(str_repeat('#',$digits));
         return [
             'name' => $this->faker->unique->name(),

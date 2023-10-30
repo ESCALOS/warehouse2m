@@ -2,8 +2,7 @@
 
 namespace App\Filament\Resources\AreaResource\RelationManagers;
 
-use App\Enums\DocumentType;
-use App\Models\Employee;
+use App\Enums\DocumentTypeEnum;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Closure;
 use Filament\Forms\Get;
+use Illuminate\Validation\Rules\Enum;
 
 class EmployeesRelationManager extends RelationManager
 {
@@ -33,19 +33,18 @@ class EmployeesRelationManager extends RelationManager
                     ->columnSpan(2),
                 Select::make('document_type')
                     ->label('Tipo de Documento')
-                    ->options([
-                        DocumentType::DNI => 'DNI', DocumentType::CARNET_DE_EXTRANJERIA => 'Carnét de Extranjería'])
+                    ->options(DocumentTypeEnum::class)
                     ->required()
-                    ->in([DocumentType::DNI,DocumentType::CARNET_DE_EXTRANJERIA]),
+                    ->rules([new Enum(DocumentTypeEnum::class)]),
                 TextInput::make('document_number')
                     ->label('Número de Documento')
                     ->required()
-                    ->unique()
+                    ->unique(ignoreRecord:true)
                     ->rules([
                         fn(Get $get):  Closure => function (string $attribute, $value, Closure $fail) use ($get) {
-                            if(($get('document_type') === DocumentType::DNI && strlen($value) !== 8) ||
-                                ($get('document_type') === DocumentType::CARNET_DE_EXTRANJERIA && strlen($value) !== 12)) {
-                                $size = $get('document_type') === DocumentType::DNI ? "8" : "12";
+                            if((DocumentTypeEnum::isId($get('document_type')) && strlen($value) !== 8) ||
+                                (DocumentTypeEnum::isForeignCard($get('document_type')) && strlen($value) !== 12)) {
+                                $size = DocumentTypeEnum::isId($get('document_type')) ? "8" : "12";
                                 $fail("Debe tener ".$size." digitos");
                             }
                         }
@@ -63,10 +62,7 @@ class EmployeesRelationManager extends RelationManager
                     ->label('Nombre'),
                 TextColumn::make('document_type')
                     ->label('Tipo de Documento')
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'dni' => 'DNI',
-                        'ce' => 'Carnét de Extranjería'
-                    }),
+                    ->badge(),
                 TextColumn::make('document_number')
                     ->label('Número de Documento')
             ])

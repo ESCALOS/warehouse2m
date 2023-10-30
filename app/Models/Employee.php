@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DocumentTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,8 @@ class Employee extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['name', 'document_type', 'document_number'];
+
+    protected $casts = ['document_type' => DocumentTypeEnum::class];
 
     public function area(): BelongsTo {
         return $this->belongsTo(Area::class);

@@ -27,9 +27,11 @@ class CostCenterResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('description')
+                    ->label('Descripción')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('amount')
+                    ->label('Monto')
                     ->required()
                     ->numeric()
                     ->default(0.00),
@@ -41,8 +43,10 @@ class CostCenterResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('description')
+                    ->label('Descripción')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Monto')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
