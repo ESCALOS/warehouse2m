@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('item_warehouse', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Item::class);
-            $table->foreignIdFor(Warehouse::class);
+            $table->foreignIdFor(Item::class)->restrictOnDelete();
+            $table->foreignIdFor(Warehouse::class)->restrictOnDelete();
             $table->integer('quantity');
             $table->decimal('total_cost',10,2);
             $table->timestamps();

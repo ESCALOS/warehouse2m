@@ -18,7 +18,7 @@ class MeasurementUnitResource extends Resource
     protected static ?string $model = MeasurementUnit::class;
     protected static ?string $navigationGroup = 'Artículos';
     protected static ?string $modelLabel = 'unidad de Medida';
-    protected static ?string $pruralModelLabel = 'unidades de medida';
+    protected static ?string $pluralModelLabel = 'unidades de medida';
     protected static ?string $navigationIcon = 'heroicon-o-scale';
 
     public static function form(Form $form): Form

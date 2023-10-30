@@ -6,5 +6,5 @@ class DocumentType {
 
     const DNI = 'dni';
 
-    const CarnetDeExtranjeria = 'ce';
+    const CARNET_DE_EXTRANJERIA = 'ce';
 }

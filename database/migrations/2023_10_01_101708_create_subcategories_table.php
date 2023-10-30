@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
             $table->string('description')->unique();
-            $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(Category::class)->restrictOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

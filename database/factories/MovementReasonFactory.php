@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\MovementType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class MovementReasonFactory extends Factory
     {
         return [
             'description' => $this->faker->word(),
-            'type' => $this->faker->randomElement(['INGRESO','SALIDA'])
+            'type' => $this->faker->randomElement(MovementType::getValues())
         ];
     }
 }

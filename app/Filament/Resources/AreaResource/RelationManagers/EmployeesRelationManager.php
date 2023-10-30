@@ -34,9 +34,9 @@ class EmployeesRelationManager extends RelationManager
                 Select::make('document_type')
                     ->label('Tipo de Documento')
                     ->options([
-                        DocumentType::DNI => 'DNI', DocumentType::CarnetDeExtranjeria => 'Carnét de Extranjería'])
+                        DocumentType::DNI => 'DNI', DocumentType::CARNET_DE_EXTRANJERIA => 'Carnét de Extranjería'])
                     ->required()
-                    ->in(['dni','ce']),
+                    ->in([DocumentType::DNI,DocumentType::CARNET_DE_EXTRANJERIA]),
                 TextInput::make('document_number')
                     ->label('Número de Documento')
                     ->required()
@@ -44,7 +44,7 @@ class EmployeesRelationManager extends RelationManager
                     ->rules([
                         fn(Get $get):  Closure => function (string $attribute, $value, Closure $fail) use ($get) {
                             if(($get('document_type') === DocumentType::DNI && strlen($value) !== 8) ||
-                                ($get('document_type') === DocumentType::CarnetDeExtranjeria && strlen($value) !== 12)) {
+                                ($get('document_type') === DocumentType::CARNET_DE_EXTRANJERIA && strlen($value) !== 12)) {
                                 $size = $get('document_type') === DocumentType::DNI ? "8" : "12";
                                 $fail("Debe tener ".$size." digitos");
                             }

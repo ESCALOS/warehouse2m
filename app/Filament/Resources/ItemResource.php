@@ -6,6 +6,9 @@ use App\Filament\Resources\ItemResource\Pages;
 use App\Filament\Resources\ItemResource\RelationManagers;
 use App\Models\Item;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,16 +27,36 @@ class ItemResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('description')
+                TextInput::make('description')
                     ->label('Descripción')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('subcategory_id')
+                Select::make('subcategory_id')
+                    ->label('Subcategoría')
                     ->searchable()
                     ->preload()
                     ->relationship('subcategory', 'description')
+                    ->createOptionForm([
+                        Select::make('category_id')
+                            ->label('Categoría')
+                            ->searchable()
+                            ->preload()
+                            ->relationship('category', 'description')
+                            ->createOptionForm([
+                                TextInput::make('description')
+                                    ->label('Descripción')
+                                    ->required()
+                                    ->maxLength(255)
+                            ])
+                            ->required(),
+                        TextInput::make('description')
+                            ->label('Descripción')
+                            ->required()
+                            ->maxLength(255)
+
+                    ])
                     ->required(),
-                Forms\Components\Select::make('measurement_unit_id')
+                Select::make('measurement_unit_id')
                     ->preload()
                     ->searchable()
                     ->relationship('measurementUnit', 'description')

@@ -1,53 +1,51 @@
 <?php
 
-namespace App\Filament\Resources\WarehouseResource\RelationManagers;
+namespace App\Filament\Resources\CostCenterResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ResponsablesRelationManager extends RelationManager
+class CostCenterIncomesRelationManager extends RelationManager
 {
-    protected static string $relationship = 'responsables';
+    protected static string $relationship = 'ingresos';
+    protected static ?string $modelLabel = 'ingreso';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nombre')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->label('Correo Electrónico')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
+                TextInput::make('amount')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('name')
+            ->recordTitleAttribute('amount')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                ->label('Nombre'),
+                TextColumn::make('user.name')
+                    ->label('Usuario'),
+                TextColumn::make('amount')
+                    ->label('Monto')
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
-                    ->preloadRecordSelect(),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DetachAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

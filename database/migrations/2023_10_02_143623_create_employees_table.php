@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('document_type',3);
             $table->string('document_number',12)->unique();
-            $table->foreignIdFor(Area::class);
+            $table->foreignIdFor(Area::class)->restrictOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

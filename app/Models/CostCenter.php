@@ -11,7 +11,7 @@ class CostCenter extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function costCenterIncomes(): HasMany {
+    public function ingresos(): HasMany {
         return $this->hasMany(CostCenterIncome::class);
     }
 

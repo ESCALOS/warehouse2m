@@ -18,7 +18,7 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $documentType = $this->faker->randomElement([DocumentType::DNI,DocumentType::CarnetDeExtranjeria]);
+        $documentType = $this->faker->randomElement([DocumentType::DNI,DocumentType::CARNET_DE_EXTRANJERIA]);
         $digits = $documentType === DocumentType::DNI ? 8 : 12;
         $documentNumber = $this->faker->unique()->numerify(str_repeat('#',$digits));
         return [

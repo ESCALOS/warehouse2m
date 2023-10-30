@@ -40,7 +40,6 @@
                     <a wire:navigate.hover href="{{ route($route['route']) }}" class="home-nav-link {{ request()->routeIs($route['route']) ? 'home-nav-link-active' : 'home-nav-link-inactive'}}" aria-current="page">{{ $route['name'] }}</a>
                 </li>
              @endforeach
-
         </ul>
         </div>
     </div>
