@@ -11,6 +11,8 @@ class MeasurementUnit extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['description'];
+
     public function items(): HasMany {
         return $this->hasMany(Item::class);
     }

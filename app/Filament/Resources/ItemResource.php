@@ -58,9 +58,16 @@ class ItemResource extends Resource
                     ])
                     ->required(),
                 Select::make('measurement_unit_id')
+                    ->label('Unidad de Medida')
                     ->preload()
                     ->searchable()
                     ->relationship('measurementUnit', 'description')
+                    ->createOptionForm([
+                        TextInput::make('description')
+                            ->label('Descripción')
+                            ->required()
+                            ->maxLength(255)
+                    ])
                     ->required(),
             ]);
     }

@@ -41,12 +41,15 @@ class EmployeesRelationManager extends RelationManager
                     ->required()
                     ->unique(ignoreRecord:true)
                     ->rules([
-                        fn(Get $get):  Closure => function (string $attribute, $value, Closure $fail) use ($get) {
-                            if((DocumentTypeEnum::isId($get('document_type')) && strlen($value) !== 8) ||
-                                (DocumentTypeEnum::isForeignCard($get('document_type')) && strlen($value) !== 12)) {
-                                $size = DocumentTypeEnum::isId($get('document_type')) ? "8" : "12";
-                                $fail("Debe tener ".$size." digitos");
-                            }
+                        fn(Get $get):  Closure => function (string $attribute, string $value, Closure $fail) use ($get) {
+
+                            $documentTypeEnum = DocumentTypeEnum::tryFrom($get('document_type'));
+
+                            if(!$documentTypeEnum)
+                                $fail("No existe el tipo de documento ".$get('document_type'));
+
+                            if(!$documentTypeEnum->validateNumberDigits(strlen($value)))
+                                $fail("Debe tener ".$documentTypeEnum->numberDigits()." digitos");
                         }
                     ])
                     ->numeric()

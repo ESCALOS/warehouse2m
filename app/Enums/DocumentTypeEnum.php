@@ -29,11 +29,14 @@ Enum DocumentTypeEnum: string implements HasLabel, HasColor {
         ];
     }
 
-    public static function isId(string $value): bool {
-        return $value === self::ID->value;
+    public function numberDigits(): int {
+        return match ($this) {
+            self::ID => 8,
+            self::FOREIGN_CARD => 12
+        };
     }
 
-    public static function isForeignCard(string $value): bool {
-        return $value === self::FOREIGN_CARD->value;
+    public function validateNumberDigits(int $length): bool {
+        return $this->numberDigits() == $length;
     }
 }
