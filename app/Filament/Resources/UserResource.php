@@ -6,6 +6,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
+use Rawilk\FilamentPasswordInput\Password;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -15,7 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\Filter;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -28,20 +30,18 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label('Nombre')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn (string $state): string => ucwords($state))
+                    ->columnSpan(2),
+                TextInput::make('email')
                     ->label('Correo Electrónico')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255)
-                    ->hiddenOn('edit'),
+                Password::make('password')
             ]);
     }
 

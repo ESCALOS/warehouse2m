@@ -34,6 +34,7 @@ class CostCenterResource extends Resource
                     ->label('Monto')
                     ->required()
                     ->numeric()
+                    ->prefix('S/. ')
                     ->default(0.00),
             ]);
     }

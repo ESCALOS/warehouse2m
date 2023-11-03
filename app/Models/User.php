@@ -63,15 +63,6 @@ class User extends Authenticatable implements FilamentUser
         'profile_photo_url',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($user) {
-            $user->password = bcrypt($user->password);
-        });
-    }
-
     public function warehouses(): BelongsToMany {
         return $this->belongsToMany(Warehouse::class);
     }
