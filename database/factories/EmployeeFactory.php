@@ -19,7 +19,7 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         $documentType = $this->faker->randomElement(DocumentTypeEnum::getLabels());
-        $digits = DocumentTypeEnum::isId($documentType) ? 8 : 12;
+        $digits = DocumentTypeEnum::from($documentType)->numberDigits();
         $documentNumber = $this->faker->unique()->numerify(str_repeat('#',$digits));
         return [
             'name' => $this->faker->unique->name(),

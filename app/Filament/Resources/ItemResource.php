@@ -46,12 +46,14 @@ class ItemResource extends Resource
                             ->createOptionForm([
                                 TextInput::make('description')
                                     ->label('Descripción')
+                                    ->unique()
                                     ->required()
                                     ->maxLength(255)
                             ])
                             ->required(),
                         TextInput::make('description')
                             ->label('Descripción')
+                            ->unique()
                             ->required()
                             ->maxLength(255)
 
@@ -65,6 +67,7 @@ class ItemResource extends Resource
                     ->createOptionForm([
                         TextInput::make('description')
                             ->label('Descripción')
+                            ->unique()
                             ->required()
                             ->maxLength(255)
                     ])

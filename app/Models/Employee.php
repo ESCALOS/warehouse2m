@@ -13,7 +13,7 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'document_type', 'document_number'];
+    protected $fillable = ['name', 'document_type', 'document_number','area_id'];
 
     protected $casts = ['document_type' => DocumentTypeEnum::class];
 

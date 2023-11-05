@@ -17,7 +17,7 @@ class AreaFactory extends Factory
     public function definition(): array
     {
         return [
-            'description' => $this->faker->unique()->word()
+            'description' => ucfirst(strtolower($this->faker->unique()->word()))
         ];
     }
 }
