@@ -75,4 +75,14 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->is_admin;
     }
+
+    public function canImpersonate()
+    {
+        return $this->is_admin;
+    }
+
+    public function canBeImpersonated()
+    {
+        return str_ends_with($this->email, '@test.com');
+    }
 }

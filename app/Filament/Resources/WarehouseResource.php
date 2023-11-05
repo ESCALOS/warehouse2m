@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class WarehouseResource extends Resource
 {
     protected static ?string $model = Warehouse::class;
-    protected static ?string $navigationGroup = 'Configuración';
+    protected static ?string $navigationGroup = 'Configuraciones';
     protected static ?string $modelLabel = 'almacén';
     protected static ?string $pluralModelLabel = 'almacenes';
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';

@@ -40,5 +40,6 @@
 
         @livewire('notifications')
         @filamentScripts
+        <x-impersonate::banner/>
     </body>
 </html>

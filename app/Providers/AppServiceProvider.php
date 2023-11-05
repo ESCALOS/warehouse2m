@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Rawilk\FilamentPasswordInput\Password;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Health\Facades\Health;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Checks\Checks\DebugModeCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
+use Spatie\Health\Checks\Checks\DatabaseConnectionCountCheck;
+use Spatie\Health\Checks\Checks\RedisCheck;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,6 +50,17 @@ class AppServiceProvider extends ServiceProvider
                 ->dehydrated(fn (?string $state) => filled($state))
                 ->required(fn (string $context): bool => $context === 'create');
         });
+
+        Health::checks([
+            OptimizedAppCheck::new(),
+            DebugModeCheck::new(),
+            EnvironmentCheck::new(),
+            UsedDiskSpaceCheck::new(),
+            DatabaseConnectionCountCheck::new()
+                ->warnWhenMoreConnectionsThan(50)
+                ->failWhenMoreConnectionsThan(100),
+            RedisCheck::new(),
+        ]);
 
     }
 }

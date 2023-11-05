@@ -23,7 +23,7 @@ use Illuminate\Validation\Rules\Enum;
 class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
-    protected static ?string $navigationGroup = 'Configuración';
+    protected static ?string $navigationGroup = 'Configuraciones';
     protected static ?string $modelLabel = 'empleado';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

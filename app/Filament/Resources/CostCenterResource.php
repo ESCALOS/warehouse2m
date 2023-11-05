@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CostCenterResource extends Resource
 {
     protected static ?string $model = CostCenter::class;
-    protected static ?string $navigationGroup = 'Configuración';
+    protected static ?string $navigationGroup = 'Configuraciones';
     protected static ?string $modelLabel = 'centro de costo';
     protected static ?string $pluralModelLabel = 'centros de costo';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

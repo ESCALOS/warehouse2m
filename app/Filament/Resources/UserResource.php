@@ -17,12 +17,12 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\Filter;
-use Illuminate\Support\Facades\Hash;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static ?string $navigationGroup = 'Configuración';
+    protected static ?string $navigationGroup = 'Configuraciones';
     protected static ?string $modelLabel = 'usuario';
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
@@ -72,6 +72,9 @@ class UserResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->where('is_admin', true))
             ])
             ->actions([
+                Impersonate::make()
+                    ->label('Suplantar')
+                    ->redirectTo(route('dashboard')),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
