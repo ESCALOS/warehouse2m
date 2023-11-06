@@ -20,6 +20,16 @@ class FolioServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Folio::path(resource_path('views/pages/stock'))
+            ->uri('/stock')
+            ->middleware([
+                '*' => [
+                    'auth:sanctum',
+                    'verified',
+                    config('jetstream.auth_session'),
+                ],
+            ]);
+
         Folio::path(resource_path('views/pages'))->middleware([
             '*' => [
                 //

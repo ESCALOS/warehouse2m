@@ -64,7 +64,7 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     public function warehouses(): BelongsToMany {
-        return $this->belongsToMany(Warehouse::class);
+        return $this->belongsToMany(Warehouse::class,'user_warehouse');
     }
 
     public function movements(): HasMany {

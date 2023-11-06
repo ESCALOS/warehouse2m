@@ -74,7 +74,7 @@ class UserResource extends Resource
             ->actions([
                 Impersonate::make()
                     ->label('Suplantar')
-                    ->redirectTo(route('dashboard')),
+                    ->redirectTo(route('stock')),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),

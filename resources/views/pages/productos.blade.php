@@ -4,10 +4,6 @@ use function Livewire\Volt\{state};
 
 name('home.products');
 
-state([
-    'grapeImages' => ['1sP8xX0xy_gvFu1-dP9OSk-NEbyYLrmNJ','1WwD61ag6-RxufNcgxp-HLSxGJQ2ato43'],
-    'avocadoImages' => ['17Be_F8evqYAghKaMkSL0XMtOWiTFXdBN','1fF0P0OsfAP45UnNlOhet-3pbzK4LzChA']
-]);
 ?>
 
 <x-guest-layout>

@@ -1,7 +1,7 @@
 <?php
 use function Laravel\Folio\name;
 
-name('home.index');
+name('home');
 ?>
 
 <x-guest-layout>
