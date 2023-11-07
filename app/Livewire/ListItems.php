@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\MovementTypeEnum;
 use App\Models\CostCenter;
 use App\Models\Employee;
 use App\Models\Item;
@@ -24,9 +25,9 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard\Step;
-use Illuminate\Support\Str;
-
 use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Livewire\Attributes\Computed;
 
 class ListItems extends Component implements HasForms, HasTable
 {
@@ -35,10 +36,15 @@ class ListItems extends Component implements HasForms, HasTable
 
     public Warehouse $warehouse;
 
+    #[Computed]
+    public function items(): BelongsToMany {
+        return $this->warehouse->items()->wherePivot('quantity','>',0);
+    }
+
     public function table(Table $table): Table
     {
         return $table
-            ->relationship(fn(): BelongsToMany => $this->warehouse->items()->wherePivot('quantity','>',0))
+            ->relationship(fn(): BelongsToMany => $this->items)
             ->inverseRelationship('warehouses')
             ->columns([
                 TextColumn::make('description')
@@ -46,7 +52,7 @@ class ListItems extends Component implements HasForms, HasTable
                     ->searchable(),
                 TextColumn::make('quantity')
                     ->label('Cantidad')
-                    ->formatStateUsing(fn (string $state, $record):string => $state.' '.$record->measurementUnit->description),
+                    //->formatStateUsing(fn (string $state, $record):string => $state.' '.$record->measurementUnit->description),
             ])
             ->filters([
                 SelectFilter::make('category')
@@ -62,8 +68,8 @@ class ListItems extends Component implements HasForms, HasTable
                 // ...
             ])
             ->headerActions([
-                Action::make('create')
-                    ->label('Salida')
+                Action::make('registrarSalida')
+                    ->label('Registrar Salida')
                     ->color('danger')
                     ->steps([
                         Step::make('Datos Generales')
@@ -84,9 +90,13 @@ class ListItems extends Component implements HasForms, HasTable
                                     ->required(),
                                 Select::make('movement_reason_id')
                                     ->label('Razón')
-                                    ->options(MovementReason::query()->pluck('description','id'))
+                                    ->options(MovementReason::query()
+                                                ->where('movement_type',MovementTypeEnum::OUTPUT)
+                                                ->pluck('description','id')
+                                    )
                                     ->preload()
-                                    ->searchable(),
+                                    ->searchable()
+                                    ->required(),
                             ])
                             ->columns(2),
                         Step::make('Artículos')
@@ -97,16 +107,45 @@ class ListItems extends Component implements HasForms, HasTable
                                     ->schema([
                                         Select::make('item')
                                             ->label('Artículo')
-                                            ->options(Item::query()->pluck('description','id'))
-                                            ->preload()
+                                            ->options($this->items->pluck('description','items.id'))
                                             ->searchable()
+                                            ->preload()
+                                            ->live()
+                                            ->afterStateUpdated(function (?int $state, Set $set) {
+                                                if(isset($state)) {
+                                                    $item = $this->items->find($state);
+                                                    $quantity = $item->pivot->quantity;
+                                                    $measurement_unit = $item->measurementUnit->description;
+                                                    $set('available_quantity',$quantity);
+                                                    $set('measurement_unit',$measurement_unit);
+                                                } else {
+                                                    $set('available_quantity',0);
+                                                    $set('measurement_unit',null);
+                                                }
+                                            })
                                             ->required(),
                                         TextInput::make('quantity')
                                             ->label('Cantidad')
-                                            ->suffix(fn (Get $get): ?string => $get('item') ?? null)
+                                            ->numeric()
+                                            ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
+                                            ->required()
+                                            ->default(1)
+                                            ->minValue(1)
+                                            ->maxValue(fn (Get $get): int => $get('available_quantity') ?: 0)
+                                            ->integer(),
+                                        TextInput::make('available_quantity')
+                                            ->label('Cantidad disponible')
+                                            ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
+                                            ->default(0)
+                                            ->disabled(),
+                                        TextInput::make('measurement_unit')
+                                            ->hidden()
+                                            ->disabled()
                                     ])
                                     ->addActionLabel('Agregar Artículo')
-                                    ->columns(2)
+                                    ->reorderable(false)
+                                    ->columns(3)
+                                    ->minItems(1)
                             ])
                     ])
             ]);
