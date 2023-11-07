@@ -12,6 +12,8 @@ class MovementReason extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['movement_type', 'description'];
+
     protected $casts = ['movement_type' => MovementTypeEnum::class];
 
     public function stockMovements(): HasMany {

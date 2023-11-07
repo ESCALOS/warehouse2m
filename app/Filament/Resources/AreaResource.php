@@ -26,7 +26,9 @@ class AreaResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('description')
                     ->label('Descripción')
+                    ->unique(ignoreRecord: true)
                     ->required()
+                    ->dehydrateStateUsing(fn($state): string => ucfirst(strtolower($state)))
                     ->maxLength(255),
             ]);
     }

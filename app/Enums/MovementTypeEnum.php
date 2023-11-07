@@ -1,9 +1,10 @@
 <?php
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-Enum MovementTypeEnum: string implements HasLabel {
+Enum MovementTypeEnum: string implements HasLabel, HasColor {
     case INPUT = 'Ingreso';
     case OUTPUT = 'Salida';
 
@@ -22,10 +23,11 @@ Enum MovementTypeEnum: string implements HasLabel {
         ];
     }
 
-    public function color(): string{
-        return match($this) {
-            self::INPUT => 'green',
-            self::OUTPUT => 'red',
+    public function getColor(): string | array | null
+    {
+        return match ($this) {
+            self::INPUT => 'success',
+            self::OUTPUT => 'danger',
         };
     }
 
