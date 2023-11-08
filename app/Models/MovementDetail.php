@@ -12,6 +12,8 @@ class MovementDetail extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['movement_id','item_warehouse_id','quantity','cost'];
+
     public function movement(): BelongsTo {
         return $this->belongsTo(Movement::class);
     }

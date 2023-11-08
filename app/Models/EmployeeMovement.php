@@ -10,6 +10,8 @@ class EmployeeMovement extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['employee_id', 'cost_center_id', 'movement_id'];
+
     public function employee(): BelongsTo {
         return $this->belongsTo(Employee::class);
     }

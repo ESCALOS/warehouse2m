@@ -216,5 +216,6 @@
     "Select All On Page": "Seleccionar todo en la página",
     "Import data into database from excel file": "Importar datos a la base de datos desde un archivo Excel.",
     "Import Excel": "Importar desde Excel",
-    "Import": "Importar"
+    "Import": "Importar",
+    "Output": "Salida"
 }
