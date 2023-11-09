@@ -19,7 +19,7 @@ class MovementReasonFactory extends Factory
     {
         return [
             'description' => $this->faker->word(),
-            'type' => $this->faker->randomElement(MovementTypeEnum::getLabels())
+            'movement_type' => $this->faker->randomElement(MovementTypeEnum::getLabels())
         ];
     }
 }
