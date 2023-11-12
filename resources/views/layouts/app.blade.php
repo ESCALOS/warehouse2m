@@ -1,3 +1,6 @@
+@php
+    $warehouse = Auth::user()->warehouses->first();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
@@ -21,18 +24,29 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @livewire('navigation-menu')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow dark:bg-gray-800">
-                    <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+            <header class="bg-white shadow dark:bg-gray-800">
+                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        {{ $warehouse?->warehouseType->description ?: 'Sin almacén' }}
+                    </h2>
+                </div>
+            </header>
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="py-12">
+                    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                        <div class="overflow-hidden bg-white shadow-xl dark:bg-gray-800 sm:rounded-lg">
+                            @if ($warehouse)
+                            {{ $slot }}
+                            @else
+                            <div class="py-8 text-2xl font-black text-center">
+                                Solicite que se le asigne un almacén
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
 

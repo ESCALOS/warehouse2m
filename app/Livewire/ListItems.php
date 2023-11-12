@@ -52,7 +52,7 @@ class ListItems extends Component implements HasForms, HasTable
                     ->searchable(),
                 TextColumn::make('quantity')
                     ->label('Cantidad')
-                    //->formatStateUsing(fn (string $state, $record):string => $state.' '.$record->measurementUnit->description),
+                    ->formatStateUsing(fn (string $state, $record):string => $state.' '.$record->measurementUnit->description),
             ])
             ->filters([
                 SelectFilter::make('category')

@@ -1,30 +1,12 @@
 <?php
 use function Laravel\Folio\name;
-use function Livewire\Volt\{computed};
 use App\Models\User;
 
 name('stock');
-
-$warehouse = computed(function () {
-    return Auth::user()->warehouses()->first();
-});
-
 ?>
 
 <x-app-layout>
-    @volt
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ $this->warehouse->warehouseType->description }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-xl dark:bg-gray-800 sm:rounded-lg">
-                <livewire:list-items :warehouse="$this->warehouse">
-            </div>
-        </div>
-    </div>
-    @endvolt
+    @if (session('warehouse') !== null)
+    <livewire:list-items :warehouse="session('warehouse')">
+    @endif
 </x-app-layout>

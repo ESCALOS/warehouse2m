@@ -26,6 +26,7 @@ class FolioServiceProvider extends ServiceProvider
                 '*' => [
                     'auth:sanctum',
                     'verified',
+                    'warehouse',
                     config('jetstream.auth_session'),
                 ],
             ]);

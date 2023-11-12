@@ -31,6 +31,14 @@ class Movement extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function warehouse(): BelongsTo {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function movementReason(): BelongsTo {
+        return $this->belongsTo(MovementReason::class);
+    }
+
     public function transfer(): BelongsTo {
         return $this->belongsTo(Transfer::class);
     }
