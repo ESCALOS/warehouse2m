@@ -7,6 +7,10 @@ use App\Filament\Resources\CostCenterResource\RelationManagers;
 use App\Filament\Resources\CostCenterResource\RelationManagers\CostCenterIncomesRelationManager;
 use App\Models\CostCenter;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,17 +30,32 @@ class CostCenterResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('description')
-                    ->label('Descripción')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('amount')
-                    ->label('Monto')
-                    ->required()
-                    ->numeric()
-                    ->prefix('S/. ')
-                    ->default(0.00),
-            ]);
+                Group::make()
+                    ->schema([
+                        Section::make()
+                            ->schema([
+                                TextInput::make('description')
+                                    ->label('Descripción')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                    ])
+                    ->columnSpan(fn (CostCenter $record): int => $record ? 2 : 3),
+                Group::make()
+                    ->schema([
+                        Section::make()
+                            ->schema([
+                                Placeholder::make('updated_at')
+                                    ->label('Actuaizado hace')
+                                    ->content(fn (CostCenter $record): ?string => $record->updated_at?->diffForHumans()),
+                                Placeholder::make('amount')
+                                    ->label('Presupuesto Total')
+                                    ->content(fn (CostCenter $record): int => $record->amount)
+                            ])
+                    ])
+                    ->columnSpan(['lg' => 1])
+                    ->hiddenOn('created_at'),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table

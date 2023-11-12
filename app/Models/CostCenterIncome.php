@@ -11,6 +11,8 @@ class CostCenterIncome extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['amount'];
+
     public function costCenter(): BelongsTo {
         return $this->belongsTo(CostCenter::class);
     }

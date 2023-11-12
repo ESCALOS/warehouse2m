@@ -7,41 +7,42 @@ use App\Models\CostCenterIncome;
 class CostCenterIncomeObserver
 {
     public $afterCommit = true;
-    /**
-     * Handle the CostCenterIncome "created" event.
-     */
+
+    public function creating(CostCenterIncome $costCenterIncome): void
+    {
+        $costCenterIncome->user_id = auth()->user()->id;
+    }
+
     public function created(CostCenterIncome $costCenterIncome): void
     {
         $this->updatedCostCenterAmount($costCenterIncome);
     }
 
-    /**
-     * Handle the CostCenterIncome "updated" event.
-     */
+    public function updating(CostCenterIncome $costCenterIncome): void
+    {
+        $costCenterIncome->user_id = auth()->user()->id;
+    }
+
     public function updated(CostCenterIncome $costCenterIncome): void
     {
         $this->updatedCostCenterAmount($costCenterIncome);
     }
 
-    /**
-     * Handle the CostCenterIncome "deleted" event.
-     */
-    public function deleted(CostCenterIncome $costCenterIncome): void
+    public function deleting(CostCenterIncome $costCenterIncome): void
     {
-        $this->updatedCostCenterAmount($costCenterIncome,-1);
+        $costCenterIncome->user_id = auth()->user()->id;
     }
 
-    /**
-     * Handle the CostCenterIncome "restored" event.
-     */
+    public function deleted(CostCenterIncome $costCenterIncome): void
+    {
+        $this->updatedCostCenterAmount($costCenterIncome,true);
+    }
+
     public function restored(CostCenterIncome $costCenterIncome): void
     {
         $this->updatedCostCenterAmount($costCenterIncome);
     }
 
-    /**
-     * Handle the CostCenterIncome "force deleted" event.
-     */
     public function forceDeleted(CostCenterIncome $costCenterIncome): void
     {
         //
@@ -50,10 +51,11 @@ class CostCenterIncomeObserver
     /**
      * Actualiza el monto de los centros de costo.
      * @param CostCenterIncome $costCenterIncome Modelo para obtener los datos del monto ingresado.
-     * @param int $multiplier Poner -1 para restar el monto, por defecto 1 para sumar los montos.
+     * @param bool $deleted Indica si es una eliminación, por defecto no lo es.
      */
-    private function updatedCostCenterAmount(CostCenterIncome $costCenterIncome, int $multiplier = 1): void {
-        $previousAmount = $costCenterIncome->getOriginal('amount');
+    private function updatedCostCenterAmount(CostCenterIncome $costCenterIncome, bool $deleted = false): void {
+        $multiplier = $deleted ? -1 : 1;
+        $previousAmount = $deleted ? 0 : $costCenterIncome->getOriginal('amount');
         $currentAmount = $costCenterIncome->amount;
         $difference = ($currentAmount - $previousAmount) * $multiplier;
 

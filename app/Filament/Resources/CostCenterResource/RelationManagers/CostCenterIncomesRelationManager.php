@@ -11,6 +11,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Component;
 
 class CostCenterIncomesRelationManager extends RelationManager
 {
@@ -22,6 +23,9 @@ class CostCenterIncomesRelationManager extends RelationManager
         return $form
             ->schema([
                 TextInput::make('amount')
+                    ->label('Cantidad')
+                    ->prefix('S/. ')
+                    ->columnSpan(2)
                     ->numeric()
                     ->required(),
             ]);
@@ -41,11 +45,23 @@ class CostCenterIncomesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->modalWidth('sm')
+                    ->after(function (Component $livewire) {
+                        $livewire->dispatch('refreshCostCenterAmount');
+                    }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->modalWidth('sm')
+                    ->after(function (Component $livewire) {
+                        $livewire->dispatch('refreshCostCenterAmount');
+                    }),
+                Tables\Actions\DeleteAction::make()
+                    ->requiresConfirmation()
+                    ->after(function (Component $livewire) {
+                        $livewire->dispatch('refreshCostCenterAmount');
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

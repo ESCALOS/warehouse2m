@@ -156,7 +156,7 @@ class CreateOutput extends Component implements HasForms
                                         ->select(['items.description','item_warehouse.id','item_warehouse.quantity','item_warehouse.total_cost'])
                                         ->first();
 
-                    if($item['quantity'] > $item_warehouse->quantity) {
+                    if($item_warehouse && $item['quantity'] > $item_warehouse->quantity) {
                         throw new \Exception('El artículo '.$item_warehouse->description.' no tiene suficiente stock');
                     }
 
