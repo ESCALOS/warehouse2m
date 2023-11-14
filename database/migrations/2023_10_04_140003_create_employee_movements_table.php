@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('employee_movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Employee::class);
-            $table->foreignIdFor(Movement::class);
-            $table->foreignIdFor(CostCenter::class);
+            $table->foreignIdFor(Employee::class)->constrained();
+            $table->foreignIdFor(Movement::class)->constrained();
+            $table->foreignIdFor(CostCenter::class)->constrained();
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('item_supplier', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Item::class)->restrictOnDelete();
-            $table->foreignIdFor(Supplier::class)->restrictOnDelete();
+            $table->foreignIdFor(Item::class)->constrained();
+            $table->foreignIdFor(Supplier::class)->constrained();
             $table->timestamps();
         });
     }

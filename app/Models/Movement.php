@@ -19,7 +19,7 @@ class Movement extends Model
         return $this->hasMany(MovementDetail::class);
     }
 
-    public function employee(): HasOne {
+    public function employeeMovement(): HasOne {
         return $this->hasOne(EmployeeMovement::class);
     }
 

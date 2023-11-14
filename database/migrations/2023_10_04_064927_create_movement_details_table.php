@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('movement_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Movement::class);
-            $table->foreignIdFor(ItemWarehouse::class);
+            $table->foreignIdFor(Movement::class)->constrained();
+            $table->foreignId(ItemWarehouse::class)->constrained('item_warehouse');
             $table->integer('quantity');
             $table->decimal('cost',10,2);
             $table->timestamps();

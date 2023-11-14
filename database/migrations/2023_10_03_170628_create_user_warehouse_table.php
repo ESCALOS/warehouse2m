@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_warehouse', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->restrictOnDelete();
-            $table->foreignIdFor(Warehouse::class)->restrictOnDelete();
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Warehouse::class)->constrained();
             $table->timestamps();
         });
     }

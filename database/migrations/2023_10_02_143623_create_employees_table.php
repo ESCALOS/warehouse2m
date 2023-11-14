@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('document_type',DocumentTypeEnum::getLabels());
             $table->string('document_number',12)->unique();
-            $table->foreignIdFor(Area::class)->restrictOnDelete();
+            $table->foreignIdFor(Area::class)->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

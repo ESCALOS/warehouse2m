@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
             $table->string('description')->unique();
-            $table->foreignIdFor(WarehouseType::class)->restrictOnDelete();
+            $table->foreignIdFor(WarehouseType::class)->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

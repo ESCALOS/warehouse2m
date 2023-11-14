@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\CostCenterIncome;
+use App\Models\Movement;
 use App\Models\MovementDetail;
 use App\Observers\CostCenterIncomeObserver;
 use App\Observers\MovementDetailObserver;
+use App\Observers\MovementObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -31,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
     {
         CostCenterIncome::observe(CostCenterIncomeObserver::class);
         MovementDetail::observe(MovementDetailObserver::class);
+        Movement::observe(MovementObserver::class);
     }
 
     /**

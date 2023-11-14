@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(MovementDetail::class);
+            $table->foreignIdFor(MovementDetail::class)->constrained();
             $table->integer('quantity');
             $table->date('expiry_date');
             $table->timestamps();

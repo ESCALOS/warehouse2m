@@ -18,10 +18,10 @@ return new class extends Migration
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Warehouse::class);
-            $table->foreignIdFor(MovementReason::class);
-            $table->foreignIdFor(Transfer::class)->nullable();
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Warehouse::class)->constrained();
+            $table->foreignIdFor(MovementReason::class)->constrained();
+            $table->foreignIdFor(Transfer::class)->nullable()->constrained();
             $table->decimal('total_cost',10,2)->default(0);
             $table->timestamps();
             $table->softDeletes();

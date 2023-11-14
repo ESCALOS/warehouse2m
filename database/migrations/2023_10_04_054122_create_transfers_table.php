@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Warehouse::class)->restrictOnDelete();
+            $table->foreignIdFor(Warehouse::class)->constrained();
             $table->unsignedBigInteger('movement_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

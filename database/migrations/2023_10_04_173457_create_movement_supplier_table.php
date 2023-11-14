@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('movement_supplier', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Movement::class);
-            $table->foreignIdFor(Supplier::class);
+            $table->foreignIdFor(Movement::class)->constrained();
+            $table->foreignIdFor(Supplier::class)->constrained();
             $table->timestamps();
         });
     }

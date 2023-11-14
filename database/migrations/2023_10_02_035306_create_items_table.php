@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('description')->unique();
-            $table->foreignIdFor(Subcategory::class)->restrictOnDelete();
-            $table->foreignIdFor(MeasurementUnit::class)->restrictOnDelete();
+            $table->foreignIdFor(Subcategory::class)->constrained();
+            $table->foreignIdFor(MeasurementUnit::class)->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

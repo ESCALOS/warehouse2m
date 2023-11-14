@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('cost_center_incomes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(CostCenter::class)->restrictOnDelete();
-            $table->foreignIdFor(User::class)->restrictOnDelete();
+            $table->foreignIdFor(CostCenter::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained();
             $table->decimal('amount',10,2);
             $table->timestamps();
             $table->softDeletes();

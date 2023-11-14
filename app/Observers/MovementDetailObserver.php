@@ -48,18 +48,30 @@ class MovementDetailObserver
         //
     }
 
-    protected function updateItemWarehouseQuantity(MovementDetail $movementDetail, bool $deleted = false): void
+    protected function updateItemWarehouseQuantity(MovementDetail $movementDetail, bool $isDelete = false): void
     {
         $itemWarehouse = DB::table('item_warehouse')->where('id',$movementDetail->item_warehouse_id);
-        $multiplier = $deleted ? -1 : 1;
-        $previousQuantity = $deleted ? 0 : $movementDetail->getOriginal('quantity');
+        $multiplier = $isDelete ? -1 : 1;
+
+        $previousQuantity = $isDelete ? 0 : $movementDetail->getOriginal('quantity');
         $currentQuantity = $movementDetail->quantity;
-        $difference = ($currentQuantity - $previousQuantity) * $multiplier;
+        $differenceQuantity = ($currentQuantity - $previousQuantity) * $multiplier;
+
+        $previousCost = $isDelete ? 0 : $movementDetail->getOriginal('cost');
+        $currentCost = $movementDetail->cost;
+        $differenceCost = ($currentCost - $previousCost) * $multiplier;
+
         $movementType = $movementDetail->movement->movementReason->movement_type;
         if($movementType === MovementTypeEnum::OUTPUT) {
-            $itemWarehouse->decrement('quantity', $difference);
+            $itemWarehouse->decrementEach([
+                'quantity' => $differenceQuantity,
+                'total_cost' => $differenceCost
+            ]);
         }else {
-            $itemWarehouse->increment('quantity', $difference);
+            $itemWarehouse->incrementEach([
+                'quantity' => $differenceQuantity,
+                'total_cost' => $differenceCost
+            ]);
         }
     }
 }

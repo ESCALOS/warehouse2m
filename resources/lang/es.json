@@ -217,5 +217,6 @@
     "Import data into database from excel file": "Importar datos a la base de datos desde un archivo Excel.",
     "Import Excel": "Importar desde Excel",
     "Import": "Importar",
-    "Output": "Salida"
+    "Output": "Salida",
+    "Input": "Ingreso"
 }
