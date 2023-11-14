@@ -10,20 +10,24 @@ use App\Models\Movement;
 use App\Models\MovementDetail;
 use App\Models\MovementReason;
 use App\Models\Warehouse;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Livewire\Component;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Livewire\Attributes\Computed;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\HtmlString;
 
 class CreateOutput extends Component implements HasForms
 {
@@ -44,39 +48,46 @@ class CreateOutput extends Component implements HasForms
     public function form(Form $form): Form {
         return $form
             ->schema([
-                Section::make('Datos Generales')
-                    ->description('Datos del colaborador, centro de costo y la razón de la salida')
-                    ->schema([
-                        Select::make('employee_id')
-                            ->label('Empleado')
-                            ->options(Employee::query()->pluck('name','id'))
-                            ->preload()
-                            ->searchable()
-                            ->required()
-                            ->columnSpan(2),
-                        Select::make('cost_center_id')
-                            ->label('Centro de Costo')
-                            ->options(CostCenter::query()->pluck('description','id'))
-                            ->preload()
-                            ->searchable()
-                            ->required(),
-                        Select::make('movement_reason_id')
-                            ->label('Razón')
-                            ->options(
-                                MovementReason::query()
-                                    ->where('movement_type',MovementTypeEnum::OUTPUT)
-                                    ->pluck('description','id')
-                            )
-                            ->preload()
-                            ->searchable()
-                            ->required(),
-                    ])
-                    ->collapsible()
-                    ->columns(2),
-                Section::make('Artículos')
-                    ->description('Artículos a despachar con sus respectivas cantidades')
-                    ->schema([
-                        Repeater::make('items')
+                Wizard::make([
+                    Step::make('Datos Generales')
+                        ->description('Datos del colaborador, centro de costo y la razón de la salida')
+                        ->schema([
+                            Grid::make(2)
+                                ->schema([
+                                    Select::make('employee_id')
+                                        ->label('Empleado')
+                                        ->options(Employee::query()->pluck('name','id'))
+                                        ->preload()
+                                        ->searchable()
+                                        ->required()
+                                        ->columnSpan(2),
+                                    Select::make('movement_reason_id')
+                                        ->label('Razón')
+                                        ->options(
+                                            MovementReason::query()
+                                                ->where('movement_type',MovementTypeEnum::OUTPUT)
+                                                ->pluck('description','id')
+                                        )
+                                        ->preload()
+                                        ->searchable()
+                                        ->required(),
+                                    Select::make('cost_center_id')
+                                        ->label('Centro de Costo')
+                                        ->options(CostCenter::query()->pluck('description','id'))
+                                        ->preload()
+                                        ->searchable()
+                                        ->required(),
+                                    RichEditor::make('observations')
+                                        ->label('Observaciones')
+                                        ->columnSpan(2)
+                                ])
+                        ])
+                        ->icon('heroicon-m-user'),
+                    Step::make('itemsStep')
+                        ->label('Artículos')
+                        ->description('Artículos a despachar con sus respectivas cantidades')
+                        ->schema([
+                            Repeater::make('items')
                             ->label('Artículos')
                             ->schema([
                                 Select::make('item_id')
@@ -115,17 +126,22 @@ class CreateOutput extends Component implements HasForms
                                     ->disabled(),
                                 TextInput::make('measurement_unit')
                                     ->hidden()
-                                    ->disabled()
+                                    ->disabled(),
                             ])
-                            ->addActionLabel('Agregar Artículo')
-                            ->reorderable(false)
                             ->columns(4)
+                            ->reorderable(false)
                             ->minItems(1)
-                            ->grid(2)
-                            ->defaultItems(2)
-                    ])
-                    ->collapsible(),
-
+                        ])
+                        ->icon('heroicon-m-cube')
+                ])
+                ->submitAction(new HtmlString('<button class="float-right p-2 px-4 m-4 text-center text-white bg-indigo-800 rounded-lg text-md hover:bg-indigo-700" type="submit">
+                                                    <span wire:loading wire:target="create">
+                                                        Cargando...
+                                                    </span>
+                                                    <span wire:loading.remove wire:target="create">
+                                                        Enviar
+                                                    </span>
+                                                </button>'))
             ])
             ->statePath('data');
     }

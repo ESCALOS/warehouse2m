@@ -5,13 +5,10 @@ use function Livewire\Volt\{state};
 use function Livewire\Volt\{computed};
 use App\Models\User;
 
-name('output');
-
+name('output.view');
 ?>
-
 <x-app-layout>
     @if (session('warehouse') !== null)
-    <livewire:list-outputs :warehouse="session('warehouse')">
+    infolist
     @endif
 </x-app-layout>
-

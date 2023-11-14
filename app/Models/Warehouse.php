@@ -30,4 +30,8 @@ class Warehouse extends Model
     public function entryTransfers(): HasMany {
         return $this->hasMany(Transfer::class);
     }
+
+    public function movements(): HasMany {
+        return $this->hasMany(Movement::class);
+    }
 }
