@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ItemWarehouse extends Model
+class ItemWarehouse extends Pivot
 {
     use HasFactory;
 
@@ -19,7 +19,7 @@ class ItemWarehouse extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function stockMovement(): HasMany {
-        return $this->hasMany(StockMovement::class);
+    public function movement(): HasMany {
+        return $this->hasMany(Movement::class);
     }
 }

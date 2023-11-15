@@ -47,7 +47,9 @@ class ListOutputs extends Component implements HasForms, HasTable
             ->actions([
                 ActionGroup::make([
                     ViewAction::make()
-                        ->color('info'),
+                        ->color('info')
+                        ->url(fn (Movement $output): string => route('output.view',['movement' => $output->id]))
+                        ->openUrlInNewTab(),
                     EditAction::make()
                         ->color('primary'),
                     Action::make('delete')

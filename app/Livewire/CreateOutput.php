@@ -195,6 +195,8 @@ class CreateOutput extends Component implements HasForms
                     ->title('Movimiento exitoso')
                     ->success()
                     ->send();
+
+                $this->redirect(route('output.view',['movement' => $movement->id]));
             });
         } catch(\PDOException $e){
             Notification::make()
