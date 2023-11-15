@@ -154,7 +154,8 @@ class CreateOutput extends Component implements HasForms
                 $movement = Movement::create([
                     'movement_reason_id' => $data['movement_reason_id'],
                     'user_id' => auth()->user()->id,
-                    'warehouse_id' => $this->warehouse->id
+                    'warehouse_id' => $this->warehouse->id,
+                    'observations' => $data['observations']
                 ]);
 
                 EmployeeMovement::create([

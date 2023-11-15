@@ -13,7 +13,7 @@ class Movement extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['movement_type','movement_reason_id','user_id','warehouse_id'];
+    protected $fillable = ['movement_type','movement_reason_id','user_id','warehouse_id','observations'];
 
     public function movementDetails(): HasMany {
         return $this->hasMany(MovementDetail::class);

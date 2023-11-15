@@ -58,7 +58,7 @@ class ListItems extends Component implements HasForms, HasTable
                     ->label('Registrar Ingreso')
                     ->icon('heroicon-m-arrow-down')
                     ->color('success')
-                    ->url(fn (): string => route('output.create')),
+                    ->url(fn (): string => route('input.create')),
                 Action::make('registrarSalida')
                     ->label('Registrar Salida')
                     ->icon('heroicon-m-arrow-up')

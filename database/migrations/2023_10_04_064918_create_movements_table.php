@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(MovementReason::class)->constrained();
             $table->foreignIdFor(Transfer::class)->nullable()->constrained();
             $table->decimal('total_cost',10,2)->default(0);
+            $table->longText('observations')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
