@@ -49,7 +49,7 @@ class CreateOutput extends Component implements HasForms
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Datos Generales')
+                    Step::make('generalData')
                         ->description('Datos del colaborador, centro de costo y la razón de la salida')
                         ->schema([
                             Grid::make(2)
@@ -88,49 +88,49 @@ class CreateOutput extends Component implements HasForms
                         ->description('Artículos a despachar con sus respectivas cantidades')
                         ->schema([
                             Repeater::make('items')
-                            ->label('Artículos')
-                            ->schema([
-                                Select::make('item_id')
-                                    ->label('Artículo')
-                                    ->options($this->items->pluck('description','items.id'))
-                                    ->searchable()
-                                    ->preload()
-                                    ->live()
-                                    ->afterStateUpdated(function (?int $state, Set $set) {
-                                        if(isset($state)) {
-                                            $item = $this->items->find($state);
-                                            $quantity = $item->pivot->quantity;
-                                            $measurement_unit = $item->measurementUnit->description;
-                                            $set('available_quantity',$quantity);
-                                            $set('measurement_unit',$measurement_unit);
-                                        } else {
-                                            $set('available_quantity',0);
-                                            $set('measurement_unit',null);
-                                        }
-                                    })
-                                    ->required()
-                                    ->columnSpan(2),
-                                TextInput::make('quantity')
-                                    ->label('Cantidad')
-                                    ->numeric()
-                                    ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
-                                    ->required()
-                                    ->default(1)
-                                    ->minValue(1)
-                                    ->maxValue(fn (Get $get): int => $get('available_quantity') ?: 0)
-                                    ->integer(),
-                                TextInput::make('available_quantity')
-                                    ->label('Disponible')
-                                    ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
-                                    ->default(0)
-                                    ->disabled(),
-                                TextInput::make('measurement_unit')
-                                    ->hidden()
-                                    ->disabled(),
-                            ])
-                            ->columns(4)
-                            ->reorderable(false)
-                            ->minItems(1)
+                                ->label('Artículos')
+                                ->schema([
+                                    Select::make('item_id')
+                                        ->label('Artículo')
+                                        ->options($this->items->pluck('description','items.id'))
+                                        ->searchable()
+                                        ->preload()
+                                        ->live()
+                                        ->afterStateUpdated(function (?int $state, Set $set) {
+                                            if(isset($state)) {
+                                                $item = $this->items->find($state);
+                                                $quantity = $item->pivot->quantity;
+                                                $measurement_unit = $item->measurementUnit->description;
+                                                $set('available_quantity',$quantity);
+                                                $set('measurement_unit',$measurement_unit);
+                                            } else {
+                                                $set('available_quantity',0);
+                                                $set('measurement_unit',null);
+                                            }
+                                        })
+                                        ->required()
+                                        ->columnSpan(2),
+                                    TextInput::make('quantity')
+                                        ->label('Cantidad')
+                                        ->numeric()
+                                        ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
+                                        ->required()
+                                        ->default(1)
+                                        ->minValue(1)
+                                        ->maxValue(fn (Get $get): int => $get('available_quantity') ?: 0)
+                                        ->integer(),
+                                    TextInput::make('available_quantity')
+                                        ->label('Disponible')
+                                        ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
+                                        ->default(0)
+                                        ->disabled(),
+                                    TextInput::make('measurement_unit')
+                                        ->hidden()
+                                        ->disabled(),
+                                ])
+                                ->columns(4)
+                                ->reorderable(false)
+                                ->minItems(1)
                         ])
                         ->icon('heroicon-m-cube')
                 ])

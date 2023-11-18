@@ -12,7 +12,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ViewOutput extends Component implements HasForms, HasInfolists

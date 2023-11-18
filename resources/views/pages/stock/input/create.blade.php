@@ -9,6 +9,6 @@ name('input.create');
 ?>
 <x-app-layout>
     @if (session('warehouse') !== null)
-    <livewire:create-output :warehouse="session('warehouse')">
+    <livewire:create-input :warehouse="session('warehouse')">
     @endif
 </x-app-layout>

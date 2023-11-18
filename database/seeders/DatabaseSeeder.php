@@ -10,6 +10,7 @@ use App\Models\CostCenter;
 use App\Models\Item;
 use App\Models\MeasurementUnit;
 use App\Models\MovementReason;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Models\WarehouseType;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         MovementReason::factory(10)->create();
         WarehouseType::factory(5)->create();
         Area::factory(4)->hasEmpleados(30)->create();
+        Supplier::factory(50)->create();
         $items = Item::factory(100)->create();
         $warehouses = Warehouse::factory(4)->create();
 
