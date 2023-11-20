@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         WarehouseType::factory(5)->create();
         Area::factory(4)->hasEmpleados(30)->create();
         Supplier::factory(50)->create();
-        $items = Item::factory(100)->create();
+        $items = Item::factory(50)->create();
         $warehouses = Warehouse::factory(4)->create();
 
         foreach($items as $item) {

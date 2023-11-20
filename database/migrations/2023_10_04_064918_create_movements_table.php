@@ -20,6 +20,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Warehouse::class)->constrained();
+            $table->enum('movement_type', MovementTypeEnum::getLabels());
             $table->foreignIdFor(MovementReason::class)->constrained();
             $table->foreignIdFor(Transfer::class)->nullable()->constrained();
             $table->decimal('total_cost',10,2)->default(0);

@@ -50,6 +50,7 @@ class CreateOutput extends Component implements HasForms
             ->schema([
                 Wizard::make([
                     Step::make('generalData')
+                        ->label('Datos Generales')
                         ->description('Datos del colaborador, centro de costo y la razón de la salida')
                         ->schema([
                             Grid::make(2)
@@ -147,11 +148,11 @@ class CreateOutput extends Component implements HasForms
     }
 
     public function create(): void {
-        // dd($this->form->getState()['items']);
         $data = $this->form->getState();
         try {
             DB::transaction(function () use ($data) {
                 $movement = Movement::create([
+                    'movement_type' => MovementTypeEnum::OUTPUT,
                     'movement_reason_id' => $data['movement_reason_id'],
                     'user_id' => auth()->user()->id,
                     'warehouse_id' => $this->warehouse->id,

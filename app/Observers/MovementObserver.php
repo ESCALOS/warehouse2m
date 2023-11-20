@@ -6,6 +6,7 @@ use App\Models\Movement;
 
 class MovementObserver
 {
+    public $afterCommit = true;
     /**
      * Handle the Movement "created" event.
      */

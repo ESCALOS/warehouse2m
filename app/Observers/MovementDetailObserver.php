@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class MovementDetailObserver
 {
+    public $afterCommit = true;
     /**
      * Handle the MovementDetail "created" event.
      */

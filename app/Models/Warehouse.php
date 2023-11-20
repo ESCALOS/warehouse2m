@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,5 +34,9 @@ class Warehouse extends Model
 
     public function movements(): HasMany {
         return $this->hasMany(Movement::class);
+    }
+
+    public function outputs() :HasMany {
+        return $this->hasMany(Movement::class)->where('movement_type', MovementTypeEnum::OUTPUT)->withTrashed();
     }
 }

@@ -21,11 +21,16 @@ class ViewOutput extends Component implements HasForms, HasInfolists
 
     public Warehouse $warehouse;
     public Movement $movement;
+    public Movement $output;
+
+    public function mount(): void {
+        $this->output = Movement::withTrashed()->find($this->movement->id);
+    }
 
     public function outputInfolist(Infolist $infolist): Infolist
     {
         return $infolist
-            ->record($this->movement)
+            ->record($this->output)
             ->schema([
                 Tabs::make('Label')
                     ->tabs([
@@ -37,7 +42,10 @@ class ViewOutput extends Component implements HasForms, HasInfolists
                                 TextEntry::make('employeeMovement.costCenter.description')
                                     ->label('Centro de costo'),
                                 TextEntry::make('movementReason.description')
-                                    ->label('Movimient')
+                                    ->label('Razón de movimiento'),
+                                TextEntry::make('observations')
+                                    ->label('Observaciones')
+                                    ->html()
                             ])
                             ->icon('heroicon-m-user'),
                         Tabs\Tab::make('itemsList')
