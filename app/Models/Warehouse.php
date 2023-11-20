@@ -33,10 +33,15 @@ class Warehouse extends Model
     }
 
     public function movements(): HasMany {
-        return $this->hasMany(Movement::class);
+        return $this->hasMany(Movement::class)->withTrashed();
     }
 
-    public function outputs() :HasMany {
+    public function outputs(): HasMany {
         return $this->hasMany(Movement::class)->where('movement_type', MovementTypeEnum::OUTPUT)->withTrashed();
+    }
+
+
+    public function inputs(): HasMany {
+        return $this->hasMany(Movement::class)->where('movement_type', MovementTypeEnum::INPUT)->withTrashed();
     }
 }
