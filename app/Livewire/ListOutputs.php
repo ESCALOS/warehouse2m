@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Movement;
+use App\Models\MovementDetail;
 use App\Models\Warehouse;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -69,7 +70,7 @@ class ListOutputs extends Component implements HasForms, HasTable
                         ->openUrlInNewTab(),
                     EditAction::make()
                         ->color('primary')
-                        ->visible(fn (Movement $output) => $output->deleted_at == null),
+                        ->openUrlInNewTab(),
                     Action::make('delete')
                         ->label('Anular')
                         ->color('danger')
@@ -79,18 +80,18 @@ class ListOutputs extends Component implements HasForms, HasTable
                         ->modalSubmitActionLabel('Anular')
                         ->modalIcon('heroicon-o-trash')
                         ->modalDescription('Esta acción es irreversible')
-                        ->action(fn (Movement $movement) => $this->delete($movement))
-                        ->visible(fn (Movement $output) => $output->deleted_at === null),
-                    Action::make('restore')
-                        ->label('Restaurar')
-                        ->icon('heroicon-m-arrow-uturn-left')
-                        ->color('gray')
-                        ->action(fn (Movement $movement) => $this->restore($movement))
-                        ->hidden(fn (Movement $output) => $output->deleted_at === null),
+                        ->action(fn (Movement $movement) => $this->delete($movement)),
                 ])
                 ->icon('heroicon-m-plus')
                 ->color('success')
-                ->button(),
+                ->button()
+                ->visible(fn (Movement $output) => $output->deleted_at === null),
+            Action::make('restore')
+                ->label('Restaurar')
+                ->icon('heroicon-m-arrow-uturn-left')
+                ->color('gray')
+                ->action(fn (Movement $movement) => $this->restore($movement))
+                ->hidden(fn (Movement $output) => $output->deleted_at === null),
             ])
             ->bulkActions([
                 // ...
@@ -107,7 +108,9 @@ class ListOutputs extends Component implements HasForms, HasTable
     public function delete(Movement $movement): void {
         try {
             DB::transaction(function () use ($movement) {
-                $movement->movementDetails()->delete();
+                foreach ($movement->movementDetails as $detail) {
+                    MovementDetail::withoutTrashed()->find($detail->id)->delete();
+                }
                 $movement->delete();
 
                 Notification::make()
@@ -131,11 +134,13 @@ class ListOutputs extends Component implements HasForms, HasTable
     public function restore(Movement $movement): void {
         try {
             DB::transaction(function () use ($movement) {
-                $movement->movementDetails()->restore();
+                foreach ($movement->movementDetails as $detail) {
+                    MovementDetail::onlyTrashed()->find($detail->id)->restore();
+                }
                 $movement->restore();
 
                 Notification::make()
-                    ->title('Movimiento anulado')
+                    ->title('Movimiento restaurado')
                     ->success()
                     ->send();
             });

@@ -5,9 +5,8 @@ namespace App\Observers;
 use App\Enums\MovementTypeEnum;
 use App\Models\MovementDetail;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class MovementDetailObserver implements ShouldHandleEventsAfterCommit
+class MovementDetailObserver
 {
     /**
      * Handle the MovementDetail "created" event.
@@ -22,7 +21,7 @@ class MovementDetailObserver implements ShouldHandleEventsAfterCommit
      */
     public function updated(MovementDetail $movementDetail): void
     {
-        $this->updateItemWarehouseQuantity($movementDetail);
+        $this->updateItemWarehouseQuantity($movementDetail, 'update');
     }
 
     /**
@@ -30,7 +29,7 @@ class MovementDetailObserver implements ShouldHandleEventsAfterCommit
      */
     public function deleted(MovementDetail $movementDetail): void
     {
-        $this->updateItemWarehouseQuantity($movementDetail, true);
+        $this->updateItemWarehouseQuantity($movementDetail, 'delete');
     }
 
     /**
@@ -49,21 +48,20 @@ class MovementDetailObserver implements ShouldHandleEventsAfterCommit
         //
     }
 
-    protected function updateItemWarehouseQuantity(MovementDetail $movementDetail, bool $isDelete = false): void
+    protected function updateItemWarehouseQuantity(MovementDetail $movementDetail, string $action = 'create'): void
     {
         $itemWarehouse = DB::table('item_warehouse')->where('id',$movementDetail->item_warehouse_id);
-        $multiplier = $isDelete ? -1 : 1;
+        $multiplier = $action === 'delete' ? -1 : 1;
 
-        $previousQuantity = $isDelete ? 0 : $movementDetail->getOriginal('quantity');
+        $previousQuantity = $action === 'update' ? $movementDetail->getOriginal('quantity') : 0;
         $currentQuantity = $movementDetail->quantity;
         $differenceQuantity = ($currentQuantity - $previousQuantity) * $multiplier;
 
-        $previousCost = $isDelete ? 0 : $movementDetail->getOriginal('cost');
+        $previousCost = $action === 'update' ? $movementDetail->getOriginal('cost') : 0;
         $currentCost = $movementDetail->cost;
         $differenceCost = ($currentCost - $previousCost) * $multiplier;
 
-        $movementType = $movementDetail->movement->movementReason->movement_type;
-        if($movementType === MovementTypeEnum::OUTPUT) {
+        if($movementDetail->movement->movement_type === MovementTypeEnum::OUTPUT) {
             $itemWarehouse->decrementEach([
                 'quantity' => $differenceQuantity,
                 'total_cost' => $differenceCost

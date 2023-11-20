@@ -2,10 +2,10 @@
 
 namespace App\Observers;
 
+use App\Enums\MovementTypeEnum;
 use App\Models\Movement;
-use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class MovementObserver implements ShouldHandleEventsAfterCommit
+class MovementObserver
 {
     /**
      * Handle the Movement "created" event.
@@ -20,7 +20,7 @@ class MovementObserver implements ShouldHandleEventsAfterCommit
      */
     public function updated(Movement $movement): void
     {
-        $this->updateCostCenterAmount($movement);
+        $this->updateCostCenterAmount($movement,'update');
     }
 
     /**
@@ -28,7 +28,7 @@ class MovementObserver implements ShouldHandleEventsAfterCommit
      */
     public function deleted(Movement $movement): void
     {
-        $this->updateCostCenterAmount($movement, true);
+        $this->updateCostCenterAmount($movement,  'delete');
     }
 
     /**
@@ -47,13 +47,19 @@ class MovementObserver implements ShouldHandleEventsAfterCommit
         //
     }
 
-    public function updateCostCenterAmount(Movement $movement, bool $isDelete = false): void
+    /**
+     * Actualizar el centro de costo si el movimiento es de salida
+     */
+    public function updateCostCenterAmount(Movement $movement, string $action = 'create'): void
     {
-        $multiplier = $isDelete ? 1 : -1;
-        $previousAmount = $isDelete ? 0 : $movement->getOriginal('total_cost');
-        $currentAmount = $movement->total_cost;
-        $difference = ($currentAmount - $previousAmount) * $multiplier;
+        if($movement->movement_type === MovementTypeEnum::OUTPUT) {
+            $multiplier = $action === 'delete' ? 1 : -1;
+            $previousAmount = $action === 'update' ? $movement->getOriginal('total_cost') : 0;
+            $currentAmount = $movement->total_cost;
+            $difference = ($currentAmount - $previousAmount) * $multiplier;
 
-        $movement->employeeMovement->costCenter->increment('amount',$difference);
+            $movement->employeeMovement->costCenter->increment('amount',$difference);
+        }
+
     }
 }

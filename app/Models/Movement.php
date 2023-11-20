@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,8 +17,10 @@ class Movement extends Model
 
     protected $fillable = ['movement_type','movement_reason_id','user_id','warehouse_id','observations'];
 
+    protected $casts = ['movement_type' => MovementTypeEnum::class];
+
     public function movementDetails(): HasMany {
-        return $this->hasMany(MovementDetail::class);
+        return $this->hasMany(MovementDetail::class)->withTrashed();
     }
 
     public function employeeMovement(): HasOne {

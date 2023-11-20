@@ -3,9 +3,8 @@
 namespace App\Observers;
 
 use App\Models\CostCenterIncome;
-use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class CostCenterIncomeObserver implements ShouldHandleEventsAfterCommit
+class CostCenterIncomeObserver
 {
 
     public function creating(CostCenterIncome $costCenterIncome): void
