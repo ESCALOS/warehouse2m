@@ -27,13 +27,22 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
+     * The model observers for your application.
+     *
+     * @var array
+     */
+    protected $observers = [
+        CostCenterIncome::class => [CostCenterIncomeObserver::class],
+        MovementDetail::class => [MovementDetailObserver::class],
+        Movement::class => [MovementObserver::class]
+    ];
+
+    /**
      * Register any events for your application.
      */
     public function boot(): void
     {
-        CostCenterIncome::observe(CostCenterIncomeObserver::class);
-        MovementDetail::observe(MovementDetailObserver::class);
-        Movement::observe(MovementObserver::class);
+
     }
 
     /**

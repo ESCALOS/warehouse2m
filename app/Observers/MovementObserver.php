@@ -3,10 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Movement;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class MovementObserver
+class MovementObserver implements ShouldHandleEventsAfterCommit
 {
-    public $afterCommit = true;
     /**
      * Handle the Movement "created" event.
      */

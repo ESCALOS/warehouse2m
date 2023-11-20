@@ -5,10 +5,10 @@ namespace App\Observers;
 use App\Enums\MovementTypeEnum;
 use App\Models\MovementDetail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class MovementDetailObserver
+class MovementDetailObserver implements ShouldHandleEventsAfterCommit
 {
-    public $afterCommit = true;
     /**
      * Handle the MovementDetail "created" event.
      */
