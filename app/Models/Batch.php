@@ -9,6 +9,8 @@ class Batch extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['movement_detail_id','quantity','expiry_date'];
+
     public function movementDetail() {
         return $this->belongsTo(MovementDetail::class);
     }

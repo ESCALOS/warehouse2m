@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Warehouse;
+use App\Services\OutputService;
 use Livewire\Component;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -25,6 +26,12 @@ class ListItems extends Component implements HasForms, HasTable
     #[Computed]
     public function items(): BelongsToMany {
         return $this->warehouse->items()->wherePivot('quantity','>',0);
+    }
+
+    #[Computed]
+    public function formCreate(): array {
+        $outputService = new OutputService($this->warehouse);
+        return $outputService->formCreate();
     }
 
     public function table(Table $table): Table
@@ -58,12 +65,16 @@ class ListItems extends Component implements HasForms, HasTable
                     ->label('Registrar Ingreso')
                     ->icon('heroicon-m-arrow-down')
                     ->color('success')
-                    ->url(fn (): string => route('input.create')),
+                    ->url(fn (): string => route('input')),
                 Action::make('registrarSalida')
                     ->label('Registrar Salida')
                     ->icon('heroicon-m-arrow-up')
                     ->color('danger')
-                    ->url(fn (): string => route('output.create')),
+                    ->form($this->formCreate())
+                    ->action(function (array $data) {
+                        $outputService = new OutputService($this->warehouse);
+                        $outputService->create($data);
+                    }),
             ]);
     }
 

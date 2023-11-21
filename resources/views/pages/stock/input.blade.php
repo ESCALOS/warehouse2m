@@ -1,12 +1,13 @@
 <?php
-use Filament\Notifications\Notification;
 use function Laravel\Folio\name;
 use App\Models\User;
 
-name('output.view');
+name('input');
+
 ?>
+
 <x-app-layout>
     @if (session('warehouse') !== null)
-    <livewire:view-input :warehouse="session('warehouse')" :movement="$movement">
+    <livewire:list-inputs :warehouse="session('warehouse')">
     @endif
 </x-app-layout>

@@ -27,8 +27,8 @@ class Movement extends Model
         return $this->hasOne(EmployeeMovement::class);
     }
 
-    public function supplier(): HasOne {
-        return $this->hasOne(Supplier::class);
+    public function supplierMovement(): HasOne {
+        return $this->hasOne(SupplierMovement::class);
     }
 
     public function user(): BelongsTo {

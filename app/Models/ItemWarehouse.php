@@ -11,6 +11,8 @@ class ItemWarehouse extends Pivot
 {
     use HasFactory;
 
+    protected $table = 'item_warehouse';
+
     public function item(): BelongsTo {
         return $this->belongsTo(Item::class);
     }
