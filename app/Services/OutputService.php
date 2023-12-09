@@ -24,6 +24,7 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
+use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\DB;
 
 class OutputService
@@ -36,91 +37,89 @@ class OutputService
 
     public function formCreate(): array {
         return [
-            Wizard::make([
-                Step::make('generalData')
-                    ->label('Datos Generales')
-                    ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                Select::make('employee_id')
-                                    ->label('Empleado')
-                                    ->options(Employee::query()->pluck('name','id'))
-                                    ->preload()
-                                    ->searchable()
-                                    ->required()
-                                    ->columnSpan(2),
-                                Select::make('movement_reason_id')
-                                    ->label('Razón')
-                                    ->options(
-                                        MovementReason::query()
-                                            ->where('movement_type',MovementTypeEnum::OUTPUT)
-                                            ->pluck('description','id')
-                                    )
-                                    ->preload()
-                                    ->searchable()
-                                    ->required(),
-                                Select::make('cost_center_id')
-                                    ->label('Centro de Costo')
-                                    ->options(CostCenter::query()->pluck('description','id'))
-                                    ->preload()
-                                    ->searchable()
-                                    ->required(),
-                                RichEditor::make('observations')
-                                    ->label('Observaciones')
-                                    ->columnSpan(2)
-                            ])
-                    ])
-                    ->icon('heroicon-m-user'),
-                Step::make('itemsStep')
-                    ->label('Artículos')
-                    ->schema([
-                        Repeater::make('items')
-                            ->label('Artículos')
-                            ->schema([
-                                Select::make('item_id')
-                                    ->label('Artículo')
-                                    ->options($this->warehouse->items()->wherePivot('quantity','>',0)->pluck('description','items.id'))
-                                    ->searchable()
-                                    ->preload()
-                                    ->live()
-                                    ->afterStateUpdated(function (?int $state, Set $set) {
-                                        if(isset($state)) {
-                                            $item = $this->warehouse->items()->find($state);
-                                            $quantity = $item->pivot->quantity;
-                                            $measurement_unit = $item->measurementUnit->description;
-                                            $set('available_quantity',$quantity);
-                                            $set('measurement_unit',$measurement_unit);
-                                        } else {
-                                            $set('available_quantity',0);
-                                            $set('measurement_unit',null);
-                                        }
-                                    })
-                                    ->required()
-                                    ->columnSpan(2),
-                                TextInput::make('quantity')
-                                    ->label('Cantidad')
-                                    ->numeric()
-                                    ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
-                                    ->required()
-                                    ->default(1)
-                                    ->minValue(1)
-                                    ->maxValue(fn (Get $get): int => $get('available_quantity') ?: 0)
-                                    ->integer(),
-                                TextInput::make('available_quantity')
-                                    ->label('Disponible')
-                                    ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
-                                    ->default(0)
-                                    ->disabled(),
-                                TextInput::make('measurement_unit')
-                                    ->hidden()
-                                    ->disabled(),
-                            ])
-                            ->columns(4)
-                            ->reorderable(false)
-                            ->minItems(1)
-                    ])
-                    ->icon('heroicon-m-cube')
-            ])
+            Step::make('generalData')
+                ->label('Datos Generales')
+                ->schema([
+                    Grid::make(2)
+                        ->schema([
+                            Select::make('employee_id')
+                                ->label('Empleado')
+                                ->options(Employee::query()->pluck('name','id'))
+                                ->preload()
+                                ->searchable()
+                                ->required()
+                                ->columnSpan(2),
+                            Select::make('movement_reason_id')
+                                ->label('Razón')
+                                ->options(
+                                    MovementReason::query()
+                                        ->where('movement_type',MovementTypeEnum::OUTPUT)
+                                        ->pluck('description','id')
+                                )
+                                ->preload()
+                                ->searchable()
+                                ->required(),
+                            Select::make('cost_center_id')
+                                ->label('Centro de Costo')
+                                ->options(CostCenter::query()->pluck('description','id'))
+                                ->preload()
+                                ->searchable()
+                                ->required(),
+                            RichEditor::make('observations')
+                                ->label('Observaciones')
+                                ->columnSpan(2)
+                        ])
+                ])
+                ->icon('heroicon-m-user'),
+            Step::make('itemsStep')
+                ->label('Artículos')
+                ->schema([
+                    Repeater::make('items')
+                        ->label('Artículos')
+                        ->schema([
+                            Select::make('item_id')
+                                ->label('Artículo')
+                                ->options($this->warehouse->items()->wherePivot('quantity','>',0)->pluck('description','items.id'))
+                                ->searchable()
+                                ->preload()
+                                ->afterStateUpdated(function (?int $state, Set $set) {
+                                    if(isset($state)) {
+                                        $item = $this->warehouse->items()->find($state);
+                                        $quantity = $item->pivot->quantity;
+                                        $measurement_unit = $item->measurementUnit->description;
+                                        $set('available_quantity',$quantity);
+                                        $set('measurement_unit',$measurement_unit);
+                                    } else {
+                                        $set('available_quantity',0);
+                                        $set('measurement_unit',null);
+                                    }
+                                })
+                                ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                ->required()
+                                ->columnSpan(2),
+                            TextInput::make('quantity')
+                                ->label('Cantidad')
+                                ->numeric()
+                                ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
+                                ->required()
+                                ->default(1)
+                                ->minValue(1)
+                                ->maxValue(fn (Get $get): int => $get('available_quantity') ?: 0)
+                                ->integer(),
+                            TextInput::make('available_quantity')
+                                ->label('Disponible')
+                                ->suffix(fn (Get $get): ?string => $get('measurement_unit'))
+                                ->default(0)
+                                ->disabled(),
+                            TextInput::make('measurement_unit')
+                                ->hidden()
+                                ->disabled(),
+                        ])
+                        ->columns(4)
+                        ->reorderable(false)
+                        ->minItems(1)
+                ])
+                ->icon('heroicon-m-cube')
         ];
     }
 
@@ -129,7 +128,7 @@ class OutputService
      * @param array $data Datos requeridos para crear la salida
      * @param int $warehouseId Id del almacén
      */
-    public function create(array $data): void {
+    public function create(array $data): bool {
         try {
             DB::transaction(function () use ($data) {
                 $movement = Movement::create([
@@ -178,16 +177,19 @@ class OutputService
                     ->success()
                     ->send();
             });
+            return true;
         } catch(\PDOException $e){
             Notification::make()
                 ->title($e->getMessage())
                 ->danger()
                 ->send();
+            return false;
         }catch(\Exception $e){
             Notification::make()
                 ->title($e->getMessage())
                 ->warning()
                 ->send();
+            return false;
         }
     }
 
@@ -290,11 +292,13 @@ class OutputService
             Notification::make()
                 ->title($e->getMessage())
                 ->danger()
+                ->persistent()
                 ->send();
         }catch(\Exception $e){
             Notification::make()
                 ->title($e->getMessage())
                 ->warning()
+                ->persistent()
                 ->send();
         }
     }

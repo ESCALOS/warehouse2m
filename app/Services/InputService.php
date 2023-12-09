@@ -77,7 +77,7 @@ class InputService
                                         ->options(Item::query()->pluck('description','id'))
                                         ->searchable()
                                         ->preload()
-                                        ->live()
+                                        ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                         ->required()
                                         ->columnSpan(2),
                                     TextInput::make('quantity')
@@ -100,6 +100,7 @@ class InputService
                                         ->label('Fecha de caducidad')
                                         ->format('Y/m/d')
                                         ->native(false)
+                                        ->required()
                                 ])
                                 ->columns(5)
                                 ->reorderable(false)
@@ -170,10 +171,12 @@ class InputService
             Notification::make()
                 ->title($e->getMessage())
                 ->danger()
+                ->persistent()
                 ->send();
         }catch(\Exception $e){
             Notification::make()
                 ->title($e->getMessage())
+                ->persistent()
                 ->warning()
                 ->send();
         }

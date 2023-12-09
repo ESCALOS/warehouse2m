@@ -2,30 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Enums\MovementTypeEnum;
-use App\Models\CostCenter;
-use App\Models\Employee;
-use App\Models\EmployeeMovement;
 use App\Models\Movement;
-use App\Models\MovementDetail;
-use App\Models\MovementReason;
 use App\Models\Warehouse;
-use Filament\Forms\Components\Grid as ComponentsGrid;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
-use Filament\Infolists\Components\Grid;
-use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\Tabs;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -34,18 +14,18 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use App\Services\OutputService;
+use Filament\Support\Exceptions\Halt;
 use Filament\Tables\Actions\RestoreAction;
+
+use function Livewire\before;
 
 class ListOutputs extends Component implements HasForms, HasTable
 {
@@ -131,9 +111,16 @@ class ListOutputs extends Component implements HasForms, HasTable
                     ->label('Nueva Salida')
                     ->icon('heroicon-m-plus')
                     ->color('indigo')
-                    ->form($this->outputService()->formCreate())
-                    ->action(fn (array $data) => $this->outputService()->create($data))
-                    ->slideOver(),
+                    ->steps($this->outputService()->formCreate())
+                    ->action(function (Action $action,array $data) {
+                        $isSaved = $this->outputService()->create($data);
+                         if(!$isSaved){
+                            $action->halt();
+                         }
+                    })
+                    ->closeModalByClickingAway(false)
+                    ->after(fn() => new Halt())
+                    ->slideOver()
             ]);
     }
 
