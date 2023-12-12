@@ -82,10 +82,6 @@ class ListOutputs extends Component implements HasForms, HasTable
                         ->recordTitle(fn (Movement $output): string => 'movimiento de '.$output->employeeMovement->employee->name )
                         ->infolist($this->outputService()->infolist())
                         ->slideOver(),
-                    EditAction::make()
-                        ->color('primary')
-                        ->action(fn (Movement $movement) => $this->outputService()->update($movement))
-                        ->openUrlInNewTab(),
                     DeleteAction::make('delete')
                         ->label('Anular')
                         ->modalHeading('¿Seguro de anular la salida?')
@@ -119,7 +115,6 @@ class ListOutputs extends Component implements HasForms, HasTable
                          }
                     })
                     ->closeModalByClickingAway(false)
-                    ->after(fn() => new Halt())
                     ->slideOver()
             ]);
     }

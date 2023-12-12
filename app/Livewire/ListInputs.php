@@ -76,10 +76,6 @@ class ListInputs extends Component implements HasForms, HasTable
                         ->recordTitle('movimiento')
                         ->infolist($this->inputService()->infolist())
                         ->slideOver(),
-                    EditAction::make()
-                        ->color('primary')
-                        ->action(fn (Movement $movement) => $this->inputService()->update($movement))
-                        ->openUrlInNewTab(),
                     DeleteAction::make('delete')
                         ->label('Anular')
                         ->modalHeading('¿Seguro de anular la salida?')
@@ -105,7 +101,7 @@ class ListInputs extends Component implements HasForms, HasTable
                     ->label('Nuevo Ingreso')
                     ->icon('heroicon-m-plus')
                     ->color('indigo')
-                    ->form($this->inputService()->formCreate())
+                    ->steps($this->inputService()->formCreate())
                     ->action(fn (array $data) => $this->inputService()->create($data))
                     ->slideOver(),
             ]);

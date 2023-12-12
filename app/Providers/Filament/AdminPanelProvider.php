@@ -53,6 +53,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugin(FilamentSpatieLaravelBackupPlugin::make())
-            ->plugin(FilamentSpatieLaravelHealthPlugin::make());
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s')
+            ->spa();
     }
 }

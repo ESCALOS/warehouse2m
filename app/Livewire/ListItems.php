@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Warehouse;
+use App\Services\InputService;
 use App\Services\OutputService;
 use Livewire\Component;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -29,9 +30,13 @@ class ListItems extends Component implements HasForms, HasTable
     }
 
     #[Computed]
-    public function formCreate(): array {
-        $outputService = new OutputService($this->warehouse);
-        return $outputService->formCreate();
+    public function inputService(): InputService {
+        return new InputService($this->warehouse);
+    }
+
+    #[Computed]
+    public function outputService(): OutputService {
+        return new OutputService($this->warehouse);
     }
 
     public function table(Table $table): Table
@@ -61,20 +66,26 @@ class ListItems extends Component implements HasForms, HasTable
                 // ...
             ])
             ->headerActions([
-                Action::make('registrarIngreso')
-                    ->label('Registrar Ingreso')
+                Action::make('createInput')
+                    ->label('Nuevo Ingreso')
                     ->icon('heroicon-m-arrow-down')
                     ->color('success')
-                    ->url(fn (): string => route('input')),
-                Action::make('registrarSalida')
-                    ->label('Registrar Salida')
+                    ->steps($this->inputService()->formCreate())
+                    ->action(fn (array $data) => $this->inputService()->create($data))
+                    ->slideOver(),
+                Action::make('createOutput')
+                    ->label('Nueva Salida')
                     ->icon('heroicon-m-arrow-up')
                     ->color('danger')
-                    ->form($this->formCreate())
-                    ->action(function (array $data) {
-                        $outputService = new OutputService($this->warehouse);
-                        $outputService->create($data);
-                    }),
+                    ->steps($this->outputService()->formCreate())
+                    ->action(function (Action $action,array $data) {
+                        $isSaved = $this->outputService()->create($data);
+                         if(!$isSaved){
+                            $action->halt();
+                         }
+                    })
+                    ->closeModalByClickingAway(false)
+                    ->slideOver()
             ]);
     }
 

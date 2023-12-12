@@ -38,76 +38,74 @@ class InputService
 
     public function formCreate(): array {
         return [
-            Wizard::make([
-                Step::make('generalData')
-                    ->label('Datos Generales')
-                    ->schema([
-                        Grid::make(2)
+            Step::make('generalData')
+                ->label('Datos Generales')
+                ->schema([
+                    Grid::make(2)
+                        ->schema([
+                            Select::make('supplier_id')
+                                    ->label('Proveedor')
+                                    ->options(Supplier::query()->pluck('name','id'))
+                                    ->preload()
+                                    ->searchable()
+                                    ->required(),
+                                Select::make('movement_reason_id')
+                                    ->label('Razón')
+                                    ->options(
+                                        MovementReason::query()
+                                            ->where('movement_type',MovementTypeEnum::INPUT)
+                                            ->pluck('description','id')
+                                    )
+                                    ->preload()
+                                    ->searchable()
+                                    ->required(),
+                                RichEditor::make('observations')
+                                    ->label('Observaciones')
+                                    ->columnSpan(2)
+                        ])
+                ])
+                ->icon('heroicon-m-user'),
+            Step::make('itemsStep')
+                ->label('Artículos')
+                ->schema([
+                    Repeater::make('items')
+                            ->label('Artículos')
                             ->schema([
-                                Select::make('supplier_id')
-                                        ->label('Proveedor')
-                                        ->options(Supplier::query()->pluck('name','id'))
-                                        ->preload()
-                                        ->searchable()
-                                        ->required(),
-                                    Select::make('movement_reason_id')
-                                        ->label('Razón')
-                                        ->options(
-                                            MovementReason::query()
-                                                ->where('movement_type',MovementTypeEnum::INPUT)
-                                                ->pluck('description','id')
-                                        )
-                                        ->preload()
-                                        ->searchable()
-                                        ->required(),
-                                    RichEditor::make('observations')
-                                        ->label('Observaciones')
-                                        ->columnSpan(2)
+                                Select::make('item_id')
+                                    ->label('Artículo')
+                                    ->options(Item::query()->pluck('description','id'))
+                                    ->searchable()
+                                    ->preload()
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                    ->required()
+                                    ->columnSpan(2),
+                                TextInput::make('quantity')
+                                    ->label('Cantidad')
+                                    ->numeric()
+                                    ->suffix(fn (Get $get): ?string => Item::find($get('item_id'))?->measurementUnit->description)
+                                    ->required()
+                                    ->default(1)
+                                    ->minValue(1)
+                                    ->integer(),
+                                TextInput::make('cost')
+                                    ->label('Costo Total')
+                                    ->numeric()
+                                    ->prefix('S/.')
+                                    ->default(1)
+                                    ->minValue(0.01)
+                                    ->required()
+                                    ->inputMode('decimal'),
+                                DatePicker::make('expiry_date')
+                                    ->label('Fecha de caducidad')
+                                    ->format('Y/m/d')
+                                    ->native(false)
+                                    ->required()
                             ])
-                    ])
-                    ->icon('heroicon-m-user'),
-                Step::make('itemsStep')
-                    ->label('Artículos')
-                    ->schema([
-                        Repeater::make('items')
-                                ->label('Artículos')
-                                ->schema([
-                                    Select::make('item_id')
-                                        ->label('Artículo')
-                                        ->options(Item::query()->pluck('description','id'))
-                                        ->searchable()
-                                        ->preload()
-                                        ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                                        ->required()
-                                        ->columnSpan(2),
-                                    TextInput::make('quantity')
-                                        ->label('Cantidad')
-                                        ->numeric()
-                                        ->suffix(fn (Get $get): ?string => Item::find($get('item_id'))?->measurementUnit->description)
-                                        ->required()
-                                        ->default(1)
-                                        ->minValue(1)
-                                        ->integer(),
-                                    TextInput::make('cost')
-                                        ->label('Costo Total')
-                                        ->numeric()
-                                        ->prefix('S/.')
-                                        ->default(1)
-                                        ->minValue(0.01)
-                                        ->required()
-                                        ->inputMode('decimal'),
-                                    DatePicker::make('expiry_date')
-                                        ->label('Fecha de caducidad')
-                                        ->format('Y/m/d')
-                                        ->native(false)
-                                        ->required()
-                                ])
-                                ->columns(5)
-                                ->reorderable(false)
-                                ->minItems(1)
-                    ])
-                    ->icon('heroicon-m-cube')
-            ])
+                            ->columns(5)
+                            ->reorderable(false)
+                            ->minItems(1)
+                ])
+                ->icon('heroicon-m-cube')
         ];
     }
 
@@ -166,6 +164,13 @@ class InputService
                     ->title('Movimiento exitoso')
                     ->success()
                     ->send();
+
+                Notification::make()
+                    ->title('El proveedor '.Supplier::find($data['supplier_id'])->name.' ingresó el artículos en el almacén '.$this->warehouse->description)
+                    ->success()
+                    ->icon('heroicon-m-arrow-down')
+                    ->iconColor('success')
+                    ->sendToDatabase(auth()->user());
             });
         } catch(\PDOException $e){
             Notification::make()
@@ -222,10 +227,6 @@ class InputService
                     ])
             ])
         ];
-    }
-
-    public function update(Movement $movement) {
-
     }
 
     public function delete(Movement $movement) {

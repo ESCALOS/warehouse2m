@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
+        Debugbar::disable();
+
         FilamentColor::register([
             'indigo' => Color::Indigo,
         ]);
@@ -50,17 +53,5 @@ class AppServiceProvider extends ServiceProvider
                 ->dehydrated(fn (?string $state) => filled($state))
                 ->required(fn (string $context): bool => $context === 'create');
         });
-
-        Health::checks([
-            OptimizedAppCheck::new(),
-            DebugModeCheck::new(),
-            EnvironmentCheck::new(),
-            UsedDiskSpaceCheck::new(),
-            DatabaseConnectionCountCheck::new()
-                ->warnWhenMoreConnectionsThan(50)
-                ->failWhenMoreConnectionsThan(100),
-            RedisCheck::new(),
-        ]);
-
     }
 }

@@ -218,5 +218,7 @@
     "Import Excel": "Importar desde Excel",
     "Import": "Importar",
     "Outputs": "Salidas",
-    "Inputs": "Ingresos"
+    "Inputs": "Ingresos",
+    "Filename": "Nombre del archivo",
+    "Type": "Tipo"
 }

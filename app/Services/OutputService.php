@@ -6,6 +6,7 @@ use App\Enums\MovementTypeEnum;
 use App\Models\CostCenter;
 use App\Models\Employee;
 use App\Models\EmployeeMovement;
+use App\Models\Item;
 use App\Models\Movement;
 use App\Models\MovementDetail;
 use App\Models\MovementReason;
@@ -176,6 +177,12 @@ class OutputService
                     ->title('Movimiento exitoso')
                     ->success()
                     ->send();
+                Notification::make()
+                ->title('El empleado '.Employee::find($data['employee_id'])->name.' retiró el artículos en el almacén '.$this->warehouse->description)
+                ->success()
+                ->icon('heroicon-m-arrow-up')
+                ->iconColor('danger')
+                ->sendToDatabase(auth()->user());
             });
             return true;
         } catch(\PDOException $e){
@@ -235,10 +242,6 @@ class OutputService
                     ])
             ])
         ];
-    }
-
-    public function update(Movement $movement) {
-
     }
 
     public function delete(Movement $movement) {
